@@ -398,8 +398,7 @@ const Tile = (props) => {
         const translate = `translateY(${height * 0.17}px)`;
 
         return <>
-            <motion.div style={{ gridArea: '1/1', display: 'grid', transformOrigin: '50% 66.7%' }}
-                animate={{ transform: rotate }} transition={transition} onAnimationComplete={onRotateComplete}>
+            <motion.div className='tile-content' animate={{ transform: rotate }} transition={transition} onAnimationComplete={onRotateComplete}>
                 {renderBits()}
                 {renderSpot()}
             </motion.div>
