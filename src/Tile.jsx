@@ -352,12 +352,16 @@ const Tile = (props) => {
     };
 
     const renderSpot = () => {
+        const inverted = tile.turns % 2 === 1;
+        const y = inverted ? 362 : 418;
+
         const renderSector = (sector) => {
             const pointerEvents = inDeck || over || tile.player !== turn ? 'none' : 'all';
             const cursor = pointerEvents === 'all' ? 'pointer' : 'initial';
 
             return <path key={sector} d='M362,418 6,620 720,620 Z' fill='none' style={{ pointerEvents, cursor }}
-                transform={`rotate(${(sector * 120) % 360}, 362, 418)`} onClick={() => onClick(sector)} />;
+                transform={`rotate(${(sector * 120 - (inverted ? 60 : 0)) % 360}, 362, ${y})`}
+                onClick={() => onClick(sector)} />;
         };
 
         const viewBox = `0 0 ${TRIUM_DIMS.X} ${TRIUM_DIMS.Y}`;
@@ -371,7 +375,7 @@ const Tile = (props) => {
             </g>
             {/* selected mark */}
             {_.isNumber(selectedSector) && <circle id='selected' cx='50%' cy='90%' r='5%' fill='none' stroke='#fff' strokeWidth='5'
-                transform={`rotate(${(selectedSector) * 120}, 362, 418)`} />}
+                transform={`rotate(${(selectedSector) * 120 - (inverted ? 60 : 0)}, 362, ${y})`} />}
             {/* border */}
             {<path d='M363,6 720,620 0,620 Z' fill='none' stroke={offwhite} strokeLinejoin='round'
                 strokeWidth={strokeWidth} />}
@@ -394,7 +398,7 @@ const Tile = (props) => {
     const transition = { duration: tile.translate || (isFrom && from?.tile.id === to?.id) ? 1 : 0, delay: inDeck && !tile.height ? 0.5 : 0 };
 
     const renderContent = () => {
-        const rotate = `rotate(${(tile.turns || 0) * 120}deg)`;
+        const rotate = `rotate(${(tile.turns || 0) * 60}deg)`;
         const translate = `translateY(${height * 0.17}px)`;
 
         return <>
