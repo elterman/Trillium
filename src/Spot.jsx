@@ -161,7 +161,14 @@ const Spot = (props) => {
 
     };
 
-    const rotate = `rotate(${row % 2 === col % 2 ? 0 : 180}deg)`;
+    let rotate = 'initial';
+    const tile = _.first(placedTiles(tiles));
+
+    if (tile) {
+        const inverted = tile && tile.turns % 2 === 1;
+        const sameOrientation = (row % 2 === col % 2) === (tile.place.row % 2 === tile.place.col % 2);
+        rotate = `rotate(${inverted === sameOrientation ? -60 : 0}deg)`;
+    }
 
     return <motion.div id={id} className='tile spot' style={{ gridArea, transform: rotate }}
         animate={{ opacity: over || surrender ? 0 : 1 }} transition={{ duration: 1 }}>

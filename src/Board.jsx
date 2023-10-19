@@ -30,7 +30,7 @@ const Board = () => {
     }, [once, remesh]);
 
     const renderCell = (key) => {
-        const style = { opacity: 0.05, width: colWidth, height: rowHeight, border: '1px solid white', pointerEvents: 'none' };
+        const style = { opacity: 0.2, width: colWidth, height: rowHeight, border: '1px solid white', pointerEvents: 'none' };
         return true && <div key={key} style={style} />;
     };
 
