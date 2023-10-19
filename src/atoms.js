@@ -149,7 +149,7 @@ export const a_board_params = atom(
         const rowHeight = 88 * m;
         const colWidth = 50 * m;
         const gap = { y: 2 * m, x: 4.75 * m };
-        const pad = { top: 0, right: 0, bottom: 0, left: 0 };
+        const pad = { top: 0, right: 50 * m, bottom: 0, left: 0 };
 
         return { rowHeight, colWidth, gap, padding: pad };
     }

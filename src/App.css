@@ -62,6 +62,7 @@
 
 .spot {
   opacity: 0;
+  transform-origin: right center;
 }
 
 .tile-animated {

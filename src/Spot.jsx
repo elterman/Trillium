@@ -161,7 +161,9 @@ const Spot = (props) => {
 
     };
 
-    return <motion.div id={id} className='tile spot' style={{ gridArea }}
+    const rotate = `rotate(${row % 2 === col % 2 ? 0 : 180}deg)`;
+
+    return <motion.div id={id} className='tile spot' style={{ gridArea, transform: rotate }}
         animate={{ opacity: over || surrender ? 0 : 1 }} transition={{ duration: 1 }}>
         {renderSpot()}
     </motion.div>;

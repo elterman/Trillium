@@ -31,7 +31,7 @@ const Board = () => {
 
     const renderCell = (key) => {
         const style = { opacity: 0.05, width: colWidth, height: rowHeight, border: '1px solid white', pointerEvents: 'none' };
-        return null && <div key={key} style={style} />;
+        return true && <div key={key} style={style} />;
     };
 
     const _tiles = placedTiles(tiles);
