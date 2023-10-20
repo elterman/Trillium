@@ -71,12 +71,12 @@ const Tile = (props) => {
 
         const setTransform = () => {
             const ftile = from.tile;
-            let delta = sector - (from.sector + (isFrom ? 0 : (ftile.turns || 0)));
+            let delta = 2 * (sector - (from.sector + (isFrom ? 0 : (ftile.turns || 0))));
 
-            if (delta > 2) {
-                delta -= 4;
-            } else if (delta < -2) {
-                delta += 4;
+            if (delta > 3) {
+                delta -= 6;
+            } else if (delta < -3) {
+                delta += 6;
             }
 
             const _turns = (ftile.turns || 0) + delta;
@@ -84,9 +84,9 @@ const Tile = (props) => {
             let ok = true;
 
             const norm = (bits, turns) => {
-                bits = [...bits, ...bits, ...bits];
-                bits = bits.slice(4 - turns, 8 - turns);
-                return bits;
+                bits = [...bits, ...bits, ...bits, ...bits, ...bits, ...bits];
+                bits = bits.slice(6 - turns, 12 - turns);
+                    return bits;
             };
 
             const bits = norm(ftile.bits, _turns);
@@ -400,9 +400,11 @@ const Tile = (props) => {
     const renderContent = () => {
         const rotate = `rotate(${(tile.turns || 0) * 60}deg)`;
         const translate = `translateY(${height * 0.17}px)`;
+        const transformOrigin = `50% ${tile.turns % 2 === 1 ? 50 : 66.7}%`;
 
         return <>
-            <motion.div className='tile-content' animate={{ transform: rotate }} transition={transition} onAnimationComplete={onRotateComplete}>
+            <motion.div className='tile-content' style={{ transformOrigin }}
+                animate={{ transform: rotate }} transition={transition} onAnimationComplete={onRotateComplete}>
                 {renderBits()}
                 {renderSpot()}
             </motion.div>

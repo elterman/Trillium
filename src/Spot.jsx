@@ -26,14 +26,26 @@ const Spot = (props) => {
     const width = TRIUM_WIDTH * zoom;
     const height = width / TRIUM_RATIO;
 
+    const isInverted = () => {
+        const tile = _.first(placedTiles(tiles));
+
+        if (tile) {
+            const inverted = tile && tile.turns % 2 === 1;
+            const sameOrientation = (row % 2 === col % 2) === (tile.place.row % 2 === tile.place.col % 2);
+            return inverted === sameOrientation;
+        }
+
+        return false;
+    };
+
     const onClick = (sector) => {
         const ftile = from.tile;
-        let delta = sector - (from.sector + (ftile.turns || 0));
+        let delta = 2 * (sector - (from.sector + (ftile.turns || 0)));
 
-        if (delta > 2) {
-            delta -= 4;
-        } else if (delta < -2) {
-            delta += 4;
+        if (delta > 3) {
+            delta -= 6;
+        } else if (delta < -3) {
+            delta += 6;
         }
 
         const _turns = (ftile.turns || 0) + delta;
@@ -41,8 +53,8 @@ const Spot = (props) => {
         let ok = true;
 
         const norm = (bits, turns) => {
-            bits = [...bits, ...bits, ...bits];
-            bits = bits.slice(4 - turns, 8 - turns);
+            bits = [...bits, ...bits, ...bits, ...bits, ...bits, ...bits];
+            bits = bits.slice(6 - turns, 12 - turns);
             return bits;
         };
 
@@ -70,18 +82,18 @@ const Spot = (props) => {
             }
         });
 
-        if (!ok) {
-            setMessage('Color mismatch!');
-            return;
-        }
+        // if (!ok) {
+        //     setMessage('Color mismatch!');
+        //     return;
+        // }
 
         adjs = neighbors(tiles, ftile.place.row, ftile.place.col);
         const _count = _.filter(adjs, a => !!a).length;
 
-        if (_count > count) {
-            setMessage('Too few neighbors!');
-            return;
-        }
+        // if (_count > count) {
+        //     setMessage('Too few neighbors!');
+        //     return;
+        // }
 
         if (ftile.place !== 'tray') {
             const _tiles = _.cloneDeep(placedTiles(tiles));
@@ -109,13 +121,13 @@ const Spot = (props) => {
 
             count = countContiguous();
 
-            if (count < _tiles.length) {
-                setMessage('No islands!');
-                return;
-            }
+            // if (count < _tiles.length) {
+            //     setMessage('No islands!');
+            //     return;
+            // }
         }
 
-        ftile.turns = _turns;
+        ftile.turns = _turns - (isInverted() ? 1 : 0);
         setTo({ id, row, col, sector });
         playSound('click');
 
@@ -161,14 +173,7 @@ const Spot = (props) => {
 
     };
 
-    let rotate = 'initial';
-    const tile = _.first(placedTiles(tiles));
-
-    if (tile) {
-        const inverted = tile && tile.turns % 2 === 1;
-        const sameOrientation = (row % 2 === col % 2) === (tile.place.row % 2 === tile.place.col % 2);
-        rotate = `rotate(${inverted === sameOrientation ? -60 : 0}deg)`;
-    }
+    const rotate = `rotate(${isInverted() ? -60 : 0}deg)`;
 
     return <motion.div id={id} className='tile spot' style={{ gridArea, transform: rotate }}
         animate={{ opacity: over || surrender ? 0 : 1 }} transition={{ duration: 1 }}>
