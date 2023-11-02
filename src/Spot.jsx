@@ -30,7 +30,7 @@ const Spot = (props) => {
         const tile = _.first(placedTiles(tiles));
 
         if (tile) {
-            const inverted = tile && tile.turns % 2 === 1;
+            const inverted = tile && !!(tile.turns % 2);
             const sameOrientation = (row % 2 === col % 2) === (tile.place.row % 2 === tile.place.col % 2);
             return inverted === sameOrientation;
         }

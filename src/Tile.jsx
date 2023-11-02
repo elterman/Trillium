@@ -51,6 +51,7 @@ const Tile = (props) => {
     const gridArea = `${row || 1}/${col || 2}`;
     const pcolors = ['purple', 'darkgreen'];
     const selectedSector = isFrom ? from.sector : isTo ? to.sector : null;
+    const inverted = !!(tile.turns % 2);
 
     let width;
 
@@ -352,8 +353,7 @@ const Tile = (props) => {
     };
 
     const renderSpot = () => {
-        const inverted = tile.turns % 2 === 1;
-        const y = inverted ? 362 : 418;
+        const y = inverted ? 418 : 418;
 
         const renderSector = (sector) => {
             const pointerEvents = inDeck || over || tile.player !== turn ? 'none' : 'all';
@@ -392,7 +392,6 @@ const Tile = (props) => {
         </div>;
     };
 
-    const classes = `tile ${tile.animated ? 'tile-animated' : ''}`;
     const knobSize = `${0.35 * height}px`;
     const background = `radial-gradient(circle at 10% 10%, white 0%, ${pcolors[tile.player - 1]} 60%)`;
     const transition = { duration: tile.translate || (isFrom && from?.tile.id === to?.id) ? 1 : 0, delay: inDeck && !tile.height ? 0.5 : 0 };
@@ -400,10 +399,9 @@ const Tile = (props) => {
     const renderContent = () => {
         const rotate = `rotate(${(tile.turns || 0) * 60}deg)`;
         const translate = `translateY(${height * 0.17}px)`;
-        const transformOrigin = `50% ${tile.turns % 2 === 1 ? 50 : 66.7}%`;
 
         return <>
-            <motion.div className='tile-content' style={{ transformOrigin }}
+            <motion.div className='tile-content'
                 animate={{ transform: rotate }} transition={transition} onAnimationComplete={onRotateComplete}>
                 {renderBits()}
                 {renderSpot()}
@@ -429,9 +427,17 @@ const Tile = (props) => {
             scale = inDeck ? normalHeight / props.height : props.height / normalHeight;
         }
 
-        animate = { transform: `translate(${tile.translate?.x || 0}px, ${tile.translate?.y || 0}px) scale(${scale})` };
+        let y = tile.translate?.y || 0;
+
+        if (inverted) {
+            // y -= 56;
+        }
+
+        animate = { transform: `translate(${tile.translate?.x || 0}px, ${y}px) scale(${scale})` };
         initial = { transform: 'translate(0px, 0px) scale(1)' };
     }
+
+    const classes = `tile ${tile.animated ? 'tile-animated' : ''}`;
 
     return <motion.div id={tile.id} className={classes} style={{ gridArea }}
         animate={animate} transition={transition} initial={initial} onAnimationComplete={onTransformComplete}>
