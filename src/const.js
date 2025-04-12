@@ -1,25 +1,33 @@
-export const APP_STATE = 'SR V1';
-export const APP_COLOR = '#233022';
-export const TRIUM_DIMS = { X: 726, Y: 628 };
-export const TRIUM_RATIO = TRIUM_DIMS.X / TRIUM_DIMS.Y;
-export const TRIUM_WIDTH = 80;
-export const DEFAULT_ZOOM = 1;
-export const DECK = [
-    [1, 1, 1],
-    [2, 1, 1],
-    [2, 2, 1],
-    [2, 2, 2],
-    [1, 1, 1],
-    [2, 1, 1],
-    [2, 2, 1],
-    [2, 2, 2],
-    [1, 1, 1],
-    [2, 1, 1],
-    [2, 2, 1],
-    [2, 2, 2],
-];
-export const PROMPT_START = 'START';
-export const PROMPT_PLAY_AGAIN = 'PLAY AGAIN?';
-export const N_TO_WIN = 5;
-export const DRAW_SEQ = 'sequentially';
-export const DRAW_RANDOM = 'randomly';
+export const APP_STATE = 'WP33 V1';
+export const START_PAGE = 'START PAGE';
+export const GAME_PAGE = 'GAME PAGE';
+export const RETURN = '\u21B5';
+export const BACKSPACE = '\u232B';
+export const ESC = '\u001B';
+export const DIG = '\u20E3';
+export const SPACE = ' ';
+export const X = '✖';
+export const CHEER_BEST_SCORE = 'Best score!';
+export const CHEER_GOOD_JOB = 'Good job!';
+export const CHEER_EXCELLENT = 'Excellent!';
+export const CHEER_OUTSTANDING = 'Outstanding!';
+export const CHEER_TRANSCENDENT = 'Transcendent!';
+export const PROMPT_PLAY_AGAIN = 'Play again?';
+export const PROMPT_RESET_STATS = 'Reset stats?';
+export const PROMPT_SURRENDER = 'Give up?';
+export const STACK_CAPACITY = 14;
+export const TICK_MS = 20;
+export const MIN_POINTS = 10;
+export const MAX_POINTS = 100;
+export const OFFWHITE = '#F0F8FF';
+export const RED = '#BF8080';
+export const BLUE = '#80BFFF';
+export const GREEN = '#80D880';
+export const YELLOW = '#FFFF80';
+export const CELL_SIZE = 60;
+export const CELL_GAP = 2;
+export const ROWS = 3;
+export const COLS = 3;
+export const YOU_GAVE_UP = 'You gave up.';
+export const YOU_GAVE_UP_STATS_RESET = 'You gave up. Stats reset.';
+export const DAILY = true;
