@@ -57,7 +57,7 @@
 <style>
     :root {
         --gold: #ffe4ad;
-        --background: #522418;
+        --background: #1e4614;
         --offwhite: #f0f8ff; /* aliceblue */
         --blue: #80bfff; /* lighter blue */
     }
@@ -106,7 +106,12 @@
         outline: none !important;
         background: var(--background);
         background-image: url('$lib/images/Pattern.webp');
-        background-size: 150px;
+        /* background-size: 150px; */
+    }
+
+    @font-face {
+        font-family: Playfair Italic;
+        src: url('$lib/fonts/PlayfairDisplay-Italic.ttf');
     }
 
     @font-face {

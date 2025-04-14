@@ -78,7 +78,7 @@
 <style>
     .dot-target {
         z-index: 3;
-        display: grid;
+        display: none;
         aspect-ratio: 1;
         border-radius: 50%;
         place-self: center;

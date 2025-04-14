@@ -1,4 +1,4 @@
-import { dict3 } from '$lib/dicts/dict3';
+import { dict4 } from '$lib/dicts/dict4';
 import { pool } from '$lib/dicts/pool';
 import { cloneDeep, random, sampleSize } from 'lodash-es';
 import { APP_STATE, COLS, DAILY, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GOOD_JOB, CHEER_OUTSTANDING, PROMPT_PLAY_AGAIN, CHEER_TRANSCENDENT, ROWS } from './const';
@@ -125,7 +125,7 @@ const randomPuzzle = () => {
     };
 
     do {
-        ss.words = sampleSize(dict3, ROWS).sort();
+        ss.words = sampleSize(dict4, 3).sort();
         const letters = [...ss.words.join('')];
 
         ss.cells = letters.map((char, i) => {
@@ -255,7 +255,7 @@ export const onResetStats = () => {
 export const makePool = () => {
     const pool = [];
 
-    for (let i = 0; i < 264; i++) {
+    for (let i = 0; i < 366; i++) {
         randomPuzzle();
 
         const daily = ss.cells.map((cell) => `${cell.char}${iofpos(cell.pos.row, cell.pos.col)}`).join('');

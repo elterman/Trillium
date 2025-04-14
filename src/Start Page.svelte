@@ -87,12 +87,12 @@
         window.open('https://youtube.com/shorts/87pgUPZcpdE');
     };
 
-    const style = 'height: 40px; font-size: 19px;';
+    const style = 'height: 40px; font-size: 18px; font-family: "Playfair Italic"; font-weight: bold';
 </script>
 
 <div class="start-page" in:fade={{ duration: 100 }} out:fade={{ duration: 200 }}>
     <div class="content" bind:this={content} style="transform: scale({scale})">
-        <Title />
+        <div class="title">Trillium</div>
         <Help />
         <div class="buttons">
             <PromptButton op={{ label: 'DEMO', style, onClick: onDemo }} />
@@ -122,6 +122,15 @@
         display: grid;
         grid-auto-flow: column;
         gap: 20px;
+    }
+
+    .title {
+        place-self: center;
+        font-size: 64px;
+        font-family: Playfair Italic;
+        font-weight: 600;
+        color: var(--gold);
+        filter: drop-shadow(4px 4px 4px black);
     }
 
     .version {

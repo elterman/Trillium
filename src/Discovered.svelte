@@ -25,10 +25,10 @@
         width: 90%;
         box-sizing: border-box;
         font-family: Arial;
-        font-size: 14px;
+        font-size: 17px;
         font-weight: bold;
         border-radius: 50vh;
-        height: 22px;
+        height: 28px;
         background: #80D880;
         display: grid;
         place-content: center;

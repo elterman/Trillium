@@ -21,10 +21,10 @@
     .steps {
         grid-area: 2/1;
         display: grid;
-        height: 31px;
+        height: 40px;
         grid-auto-flow: column;
         font-family: Roboto;
-        font-size: 20px;
+        font-size: 25px;
         place-self: center;
         place-items: center;
         color: #f0f8ff;

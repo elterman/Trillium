@@ -82,7 +82,7 @@
 <style>
     .arrow-target {
         z-index: 3;
-        display: grid;
+        display: none;
         place-content: center;
         aspect-ratio: 1;
         border-radius: 50%;

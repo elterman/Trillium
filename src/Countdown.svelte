@@ -75,7 +75,7 @@
         transform: translateY(13px);
         color: #f0f8ff;
         font-family: Poppins;
-        font-size: 12px;
+        font-size: 15px;
     }
 
     .group {

@@ -1,10 +1,10 @@
 <script>
     import { fade } from 'svelte/transition';
     import { clientRect, scrollClass } from './utils';
-    import { dict3 } from '$lib/dicts/dict3';
+    import { dict4 } from '$lib/dicts/dict4';
 
     let style = $state('');
-    const dict = dict3.sort();
+    const dict = dict4.sort();
 
     $effect(() => {
         const onResize = () => {

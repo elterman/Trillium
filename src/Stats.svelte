@@ -17,14 +17,14 @@
         display: grid;
         grid-auto-flow: column;
         grid: auto / 1.3fr 1fr 1fr;
-        height: 22px;
+        height: 28px;
     }
 
     .item {
         width: 94%;
         box-sizing: border-box;
         font-family: 'Roboto Condensed';
-        font-size: 11px;
+        font-size: 14px;
         border-radius: 50vh;
         height: 90%;
         background: #80bfff;

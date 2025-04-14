@@ -2,7 +2,7 @@
     import { fade } from 'svelte/transition';
     import { post } from './utils';
 
-    const { id, src, width = 34, disabled, onClick, tooltip } = $props();
+    const { id, src, width = 44, disabled, onClick, tooltip } = $props();
 
     let scale = $state(1);
     let tip = $state(false);

@@ -108,6 +108,7 @@
     }
 
     .content {
+        border-radius: 50%;
         display: grid;
         place-content: center;
         aspect-ratio: 1;

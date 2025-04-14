@@ -41,7 +41,7 @@
         border-radius: 50vh;
         box-sizing: border-box;
         padding: 0px 15px 0px;
-        background: #80bfff;
+        background: var(--gold);
     }
 
     .button:hover {
