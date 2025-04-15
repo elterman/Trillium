@@ -1,17 +1,50 @@
 <script>
-    import { BLUE, CELL_GAP, CELL_SIZE, OFFWHITE } from './const';
+    import { BLUE, CELL_SIZE, OFFWHITE, sqrt3 } from './const';
     import { isOrtho, isSolved, onOver, persist, wordsRevealedAt } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { ss } from './state.svelte';
 
     const { cell } = $props();
-    const { home, pos } = $derived(cell);
-    const id = $derived(`${home.row * 10 + home.col}`);
-    const area = $derived(`${home.row}/${home.col}`);
-    const csz = CELL_SIZE + CELL_GAP;
-    const transform = $derived(`translate(${(pos.col - home.col) * csz}px, ${(pos.row - home.row) * csz}px)`);
-    const width = `${CELL_SIZE}px`;
-    const fsz = `${(CELL_SIZE * 16) / 30}px`;
+    const { char, home, pos } = $derived(cell);
+    const id = $derived(home);
+
+    const transform = $derived.by(() => {
+        const sz = CELL_SIZE;
+        const off = (sz * 1.5) / sqrt3;
+        let x = 0;
+        let y = 0;
+
+        if (pos === 2) {
+            x = -sz * 0.5;
+            y = off;
+        } else if (pos === 3) {
+            x = sz * 0.5;
+            y = off;
+        } else if (pos === 4) {
+            x = -sz;
+            y = off * 2;
+        } else if (pos === 5) {
+            x = sz;
+            y = off * 2;
+        } else if (pos === 6) {
+            x = -sz * 1.5;
+            y = off * 3;
+        } else if (pos === 7) {
+            x = -sz * 0.5;
+            y = off * 3;
+        } else if (pos === 8) {
+            x = sz * 0.5;
+            y = off * 3;
+        } else if (pos === 9) {
+            x = sz * 1.5;
+            y = off * 3;
+        }
+
+        return `translate(${x}px, ${y}px)`;
+    });
+
+    const width = `${CELL_SIZE * 0.85}px`;
+    const fsz = `${(CELL_SIZE * 14) / 30}px`;
     let color = $state(BLUE);
     const zi = $derived(inPair(ss.pair2) ? 2 : inPair(ss.pair1) ? 1 : 0);
     const pairColor = OFFWHITE;
@@ -84,17 +117,24 @@
 <div
     {id}
     class="cell {hidden ? 'hidden' : ''} {ss.surrender ? 'surrender' : ''}"
-    style="grid-area: {area}; transform: {transform}; z-index: {zi}">
+    style="width: {CELL_SIZE}px; transform: {transform}; z-index: {zi}">
     <div
         class="content {color !== pairColor && inPair(ss.hover_pair) ? 'hover' : ''} {ss.over ? 'pulse' : ''}"
         style="width: {width}; font-size: {fsz}; background: {color};">
-        {cell.char}
+        {char}
     </div>
 </div>
 
 <style>
     .cell {
+        grid-area: 1/1;
+        place-self: start center;
         transition: transform 1s;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        /* background: gold; */
+        display: grid;
+        place-content: center;
     }
 
     .hidden {

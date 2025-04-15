@@ -1,13 +1,10 @@
 <script>
+    import Cell from './Cell.svelte';
     import { CELL_SIZE, sqrt3 } from './const';
     import { makePuzzle } from './shared.svelte';
     import { ss } from './state.svelte';
     import { post } from './utils';
-
-    const key = (cell) => {
-        const { row, col } = cell.home;
-        return row * 10 + col;
-    };
+    import Trillium from '$lib/images/Trillium.webp';
 
     $effect(() => {
         const onTransitionEnd = (e) => {
@@ -33,9 +30,11 @@
 <div
     id="board"
     class="board {ss.flip ? 'flipped' : ''} {ss.pair2?.shift ? 'no-overflow' : ''}"
-    style="width: {CELL_SIZE * 4}px; height: {CELL_SIZE * 2 * sqrt3}px; ">
-    <!-- {#each ss.cells as cell (key(cell))}
-    {/each} -->
+    style="width: {CELL_SIZE * 4}px; height: {CELL_SIZE * 1.5 * sqrt3 + CELL_SIZE}px; ">
+    {#each ss.cells as cell (cell.home)}
+        <Cell {cell} />
+    {/each}
+    <img class="img" src={Trillium} alt="Trillium" width={CELL_SIZE * 0.8} style='margin-top: {CELL_SIZE / 2.6 * sqrt3}px'/>
 </div>
 
 <style>
@@ -44,8 +43,8 @@
         display: grid;
         justify-self: center;
         transition: linear transform 0.5s;
-        margin: 15px;
-        background: #00000040;
+        margin-bottom: 15px;
+        /* background: #00000040; */
     }
 
     .no-overflow {
@@ -54,5 +53,10 @@
 
     .flipped {
         transform: rotateY(90deg);
+    }
+
+    .img {
+        grid-area: 1/1;
+        place-self: center;
     }
 </style>
