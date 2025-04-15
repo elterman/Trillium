@@ -9,7 +9,7 @@
     $effect(() => {
         const onResize = () => {
             const r = clientRect('.game-page');
-            style = `left: ${r.x - 25}px; top: ${r.y}px; width: ${r.width + 50}px; height: ${r.height - 70}px;`;
+            style = `left: ${r.x - 5}px; top: ${r.y}px; width: ${r.width + 10}px; height: ${r.height - 70}px;`;
         };
 
         onResize();

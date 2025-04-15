@@ -17,7 +17,7 @@
         display: grid;
         grid-auto-flow: column;
         grid: auto / 1fr 1fr 1fr;
-        height: calc(min(9dvw, 40px));
+        height: 36px;
         transition: opacity 0.3s;
     }
 
@@ -28,8 +28,8 @@
         font-size: 17px;
         font-weight: bold;
         border-radius: 50vh;
+        border: 1px solid transparent;
         height: 28px;
-        /* background: #80D880; */
         display: grid;
         place-content: center;
         place-self: center;

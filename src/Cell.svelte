@@ -1,9 +1,8 @@
 <script>
-    import { BLUE, CELL_GAP, CELL_SIZE, GREEN, OFFWHITE, YELLOW } from './const';
-    import { inPlace, isOrtho, isSolved, isWordRevealedAt, onOver, persist } from './shared.svelte';
+    import { BLUE, CELL_GAP, CELL_SIZE, OFFWHITE } from './const';
+    import { isOrtho, isSolved, onOver, persist, wordsRevealedAt } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { ss } from './state.svelte';
-    import { post } from './utils';
 
     const { cell } = $props();
     const { home, pos } = $derived(cell);
@@ -47,10 +46,10 @@
         }
 
         const prevColor = color;
-        const word = isWordRevealedAt(cell.pos.row);
-        const newColor = word ? (inPlace(word, cell.pos.row) ? GREEN : YELLOW) : BLUE;
+        const words = wordsRevealedAt(cell.pos);
+        // const newColor = word ? (inPlace(word, cell.pos.row) ? GREEN : YELLOW) : BLUE;
 
-        post(() => (color = newColor), prevColor === pairColor || prevColor === newColor ? 0 : 1000);
+        // post(() => (color = newColor), prevColor === pairColor || prevColor === newColor ? 0 : 1000);
     });
 
     $effect(() => {

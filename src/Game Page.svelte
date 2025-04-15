@@ -29,7 +29,6 @@
         grid: auto auto / auto;
         gap: 20px;
         padding: 10px 0;
-        /* scale: 1.25; */
         opacity: 0;
         transition: opacity 0.5s;
     }

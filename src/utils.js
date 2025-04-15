@@ -1,5 +1,3 @@
-import { COLS } from './const';
-
 export const windowSize = () => {
     const d = document,
         e = d.documentElement,
@@ -67,13 +65,10 @@ export const samePair = (p1, p2) => {
     return false;
 };
 
-export const posofi = (i, cols = COLS) => {
-    const row = Math.floor(i / cols) + 1;
-    const col = i % cols + 1;
-
-    return { row, col };
+export const posofi = (i) => {
+    return i;
 };
 
-export const iofpos = (row, col, cols = COLS) => {
-    return (row - 1) * cols + (col - 1);
+export const iofpos = (pos) => {
+    return pos;
 };

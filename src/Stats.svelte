@@ -28,6 +28,7 @@
         font-size: 15px;
         border-radius: 50vh;
         height: 90%;
+        padding: 0 0 2px;
         display: grid;
         grid-auto-flow: column;
         align-items: center;

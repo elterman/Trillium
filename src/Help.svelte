@@ -7,8 +7,9 @@
     const unspan = '</span>';
     const hi = '<span style=\'color: lightgreen;\'>';
     const colorStyle = ' padding: 0 2px; color: black; text-shadow: none;';
+    const imgStyle = ' width=80 style=\'place-self: center; margin-top: 10px;\'';
 
-    const content = `<span style='margin-right: 10px;'>Rearrange letters to reveal ${hi}three connected 4-letter words${unspan} in as few steps as possible. In this example, the words are TIDE, ECHO, and TRIO:${unspan}<img src=${Trillium} width=80 style='place-self: center; margin-top: 10px;'>${span}The words must must read from ${hi}left to right${unspan}.${unspan}${span}•  ${tapOrClick()} a ${hi}dot between cells${unspan} to select a ${hi}pair of adjacent letters${unspan}.${unspan}${span}•  Select ${hi}another pair to swap${unspan} their positions.${unspan}${span}•  Use ${hi}arrows to scroll${unspan} along the edges of the puzzle.${unspan}${span} Correctly placed unscrambled words appear in <span style='background: ${GREEN};${colorStyle}'>GREEN</span>. Misplaced words appear in <span style='background: ${YELLOW};${colorStyle}'>YELLOW</span>.${unspan}`;
+    const content = `<span style='margin-right: 10px;'>Rearrange letters to reveal ${hi}three connected 4-letter words${unspan} in as few steps as possible. In this example, the words are TIDE, ECHO, and TRIO:${unspan}<img src=${Trillium} ${imgStyle}>${span}The words must read from ${hi}left to right${unspan}.${unspan}${span}•  ${tapOrClick()} a ${hi}dot between cells${unspan} to select a ${hi}pair of adjacent letters${unspan}.${unspan}${span}•  Select ${hi}another pair to swap${unspan} their positions.${unspan}${span}•  Use ${hi}arrows to scroll${unspan} along the edges of the puzzle.${unspan}${span} Correctly placed unscrambled words appear in <span style='background: ${GREEN};${colorStyle}'>GREEN</span>. Misplaced words appear in <span style='background: ${YELLOW};${colorStyle}'>YELLOW</span>.${unspan}`;
 </script>
 
 <div class="help">

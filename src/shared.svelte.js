@@ -1,10 +1,10 @@
 import { dict4 } from '$lib/dicts/dict4';
 import { pool } from '$lib/dicts/pool';
-import { cloneDeep, random, sampleSize } from 'lodash-es';
-import { APP_STATE, COLS, DAILY, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GOOD_JOB, CHEER_OUTSTANDING, PROMPT_PLAY_AGAIN, CHEER_TRANSCENDENT, ROWS } from './const';
+import { cloneDeep, sample } from 'lodash-es';
+import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GOOD_JOB, CHEER_OUTSTANDING, CHEER_TRANSCENDENT, DAILY, PROMPT_PLAY_AGAIN } from './const';
 import { _sound } from './sound.svelte';
 import { _prompt, _stats, ss } from './state.svelte';
-import { iofpos, posofi, post, samePos } from './utils';
+import { iofpos, posofi, post } from './utils';
 
 let over = $state(false);
 
@@ -92,83 +92,43 @@ export const swapPairs = (p1, p2) => {
 };
 
 const randomPuzzle = () => {
-    const hasAnagrams = () => {
-        const wordPairs = () => {
-            const words = ss.words;
-
-            const count = words.length;
-            const pairs = [];
-
-            for (let i = 0; i < count; i++) {
-                for (let j = 0; j < count; j++) {
-                    if (words[i] !== words[j]) {
-                        pairs.push([words[i], words[j]]);
-                    }
-                }
-            }
-
-            return pairs;
-        };
-
-        const pairs = wordPairs();
-
-        for (const p of pairs) {
-            const w1 = Array.from(p[0]).sort().join('');
-            const w2 = Array.from(p[1]).sort().join('');
-
-            if (w1 === w2) {
-                return true;
-            }
-        }
-
-        return false;
-    };
-
-    do {
-        ss.words = sampleSize(dict4, 3).sort();
-        const letters = [...ss.words.join('')];
-
-        ss.cells = letters.map((char, i) => {
-            const { row, col } = posofi(i);
-            return { char, home: { row, col }, pos: { row, col } };
-        });
-
-        const wordRevealed = () => {
-            for (let i = 0; i < ROWS; i++) {
-                if (isWordRevealedAt(i + 1)) {
-                    return true;
-                }
-            }
-
-            return false;
-        };
+    const pickWords = () => {
+        let w1, w2, w3;
 
         do {
-            for (let i = 0; i < 4; i++) {
-                let p1, p2;
+            do w1 = sample(dict4); while (w1[0] == w1[3]);
 
-                if (i % 2 === 0) {
-                    let r1 = random(1, ROWS);
-                    let c1 = random(1, COLS - 1);
-                    p1 = { r1, c1, r2: r1, c2: c1 + 1 };
+            let dict = dict4.filter(w => w[0] === w1[3]);
+            do w2 = sample(dict); while (w2[0] === w2[3]);
 
-                    r1 = r1 < ROWS ? r1 + 1 : 1;
-                    c1 = random(1, COLS - 1);
-                    p2 = { r1, c1, r2: r1, c2: c1 + 1 };
-                } else {
-                    let c1 = random(1, COLS);
-                    let r1 = random(1, ROWS - 1);
-                    p1 = { r1, c1, r2: r1 + 1, c2: c1 };
+            dict = dict4.filter(w => w[0] === w1[0] && w[3] === w2[3]);
+            w3 = sample(dict);
+        } while (!w1 || !w2 || !w3);
 
-                    c1 = c1 < COLS ? c1 + 1 : 1;
-                    r1 = random(1, ROWS - 1);
-                    p2 = { r1, c1, r2: r1 + 1, c2: c1 };
-                }
+        return [w1, w2, w3];
+    };
 
-                swapPairs(p1, p2);
-            }
-        } while (wordRevealed()); // ensure no words are revealed after swapping pairs
-    } while (hasAnagrams()); // ensure no anagrams in the generated words
+    ss.words = pickWords();
+
+    ss.cells = [
+        { char: ss.words[0][3], home: 1, pos: 1 },
+        { char: ss.words[0][2], home: 2, pos: 2 },
+        { char: ss.words[1][1], home: 3, pos: 3 },
+        { char: ss.words[0][1], home: 4, pos: 4 },
+        { char: ss.words[1][2], home: 5, pos: 5 },
+        { char: ss.words[0][0], home: 6, pos: 6 },
+        { char: ss.words[2][1], home: 7, pos: 7 },
+        { char: ss.words[2][2], home: 8, pos: 8 },
+        { char: ss.words[2][3], home: 9, pos: 9 },
+    ];
+
+    const wordsRevealed = () => wordsRevealedAt(1).length || wordsRevealedAt(7).length;
+
+    const pairs = [[6,4], [4,2], [2,1], [1, 3], [3, 5], [5, 9], [6, 7], [7, 8], [8, 9]];
+
+    // do {
+    //     // shuffle
+    // } while (wordsRevealed()); // ensure no words are revealed after swapping pairs
 };
 
 const pickDaily = () => {
@@ -275,22 +235,36 @@ export const persist = (statsOnly = false) => {
     localStorage.setItem(APP_STATE, JSON.stringify(json));
 };
 
-export const findCell = (pos) => ss.cells.find((cell) => samePos(pos, cell.pos));
+export const findCell = (pos) => ss.cells.find((cell) => cell.pos === pos);
 
-const wordAt = (row) => {
-    let word = '';
+const wordsAt = (pos) => {
+    let words = [];
 
-    for (let col = 1; col <= COLS; col++) {
-        const cell = findCell({ row, col });
-        word += cell.char;
+    const w1 = [6, 4, 2, 1];
+    const w2 = [9, 5, 3, 1];
+    const w3 = [6, 7, 8, 9];
+
+    for (const w of [w1, w2, w3]) {
+        if (!w.includes(pos)) {
+            continue;
+        }
+
+        let word = '';
+
+        for (const p of  w) {
+            const cell = findCell(p);
+            word += cell.char;
+        }
+
+        words.push(word);
     }
 
-    return word;
+    return words;
 };
 
-export const isWordRevealedAt = (row) => {
-    const word = wordAt(row);
-    return ss.words.includes(word) ? word : null;
+export const wordsRevealedAt = (pos) => {
+    const words = wordsAt(pos).filter((word) => ss.words.includes(word));
+    return words;
 };
 
 export const log = (value) => console.log($state.snapshot(value));
@@ -302,29 +276,29 @@ export const isOrtho = () => ss.pair2 && !ss.pair2?.shift && isHorz(ss.pair1) !=
 export const inPlace = (word, row) => row - 1 === ss.words.indexOf(word);
 
 export const isSolved = (silent = false) => {
-    let solved = 0;
+    // let solved = 0;
 
-    for (let row = 1; row <= ROWS; row++) {
-        const word = isWordRevealedAt(row);
+    // for (let row = 1; row <= ROWS; row++) {
+    //     const word = wordsRevealedAt(row);
 
-        if (!word) {
-            continue;
-        }
+    //     if (!word) {
+    //         continue;
+    //     }
 
-        if (!ss.discovered.includes(word)) {
-            ss.discovered.push(word);
+    //     if (!ss.discovered.includes(word)) {
+    //         ss.discovered.push(word);
 
-            if (!ss.surrender && !silent) {
-                _sound.play('won', { rate: 3 });
-            }
-        }
+    //         if (!ss.surrender && !silent) {
+    //             _sound.play('won', { rate: 3 });
+    //         }
+    //     }
 
-        if (inPlace(word, row)) {
-            solved += 1;
-        }
-    }
+    //     if (inPlace(word, row)) {
+    //         solved += 1;
+    //     }
+    // }
 
-    return solved === ROWS;
+    // return solved === ROWS;
 };
 
 export const dayOfYear = () => {
