@@ -7,7 +7,6 @@
     import { dayOfYear, isSolved, onStart, persist } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { _stats, ss } from './state.svelte';
-    import Title from './Title.svelte';
     import { focusOnApp, post, windowSize } from './utils';
 
     let content = $state(null);
@@ -86,17 +85,16 @@
     const onDemo = () => {
         window.open('https://youtube.com/shorts/87pgUPZcpdE');
     };
-
-    const style = 'height: 40px; font-size: 18px; font-family: "Playfair Italic"; font-weight: bold';
+    // const style = 'height: 40px; font-size: 18px; font-family: "Playfair Italic"; font-weight: bold';
 </script>
 
 <div class="start-page" in:fade={{ duration: 100 }} out:fade={{ duration: 200 }}>
     <div class="content" bind:this={content} style="transform: scale({scale})">
-        <div class="title">Trillium</div>
+        <div class="title gradient-gold gradient-text">Trillium</div>
         <Help />
         <div class="buttons">
-            <PromptButton op={{ label: 'DEMO', style, onClick: onDemo }} />
-            <PromptButton op={{ label: ss.cells ? 'BACK TO GAME' : 'PLAY', style, onClick: onGoToGame }} />
+            <PromptButton op={{ label: 'Demo', onClick: onDemo }} />
+            <PromptButton op={{ label: ss.cells ? 'Back to Game' : 'Play', onClick: onGoToGame }} />
         </div>
     </div>
     <div class="version">1947</div>

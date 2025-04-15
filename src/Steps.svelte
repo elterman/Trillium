@@ -11,7 +11,7 @@
             {ss.surrender}
         </div>
     {:else}
-        <div style="grid-area: 1/1"  transition:fade>
+        <div style="grid-area: 1/1" transition:fade>
             <NumberFlow value={ss.steps} /> step{ss.steps === 1 ? '' : 's'}
         </div>
     {/if}
@@ -23,11 +23,12 @@
         display: grid;
         height: 40px;
         grid-auto-flow: column;
-        font-family: Roboto;
+        font-family: 'Playfair Italic';
+        font-weight: bold;
         font-size: 25px;
         place-self: center;
         place-items: center;
-        color: #f0f8ff;
+        color: var(--gold);
     }
 
     .message {

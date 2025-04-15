@@ -28,24 +28,24 @@
     });
 </script>
 
-<div id={op.label} class={['button-base no-highlight button', { x }]} style={`${op.style}; ${style}`} onpointerdown={() => (scale = 0.8)}>
+<div id={op.label} class={['button-base no-highlight button gradient-gold', { x }]} style={`${op.style}; ${style}`} onpointerdown={() => (scale = 0.8)}>
     {op.label}
 </div>
 
 <style>
     .button {
         cursor: pointer;
-        height: 30px;
-        font-family: 'Roboto Condensed';
-        font-size: calc(min(5dvw, 16px));
+        height: 36px;
+        font-size: calc(min(6dvw, 20px));
         border-radius: 50vh;
         box-sizing: border-box;
         padding: 0px 15px 0px;
-        background: var(--gold);
+        font-family: 'Playfair Italic';
+        font-weight: bold
     }
 
     .button:hover {
-        background: #f0f8ff;
+        filter: sepia(1);
     }
 
     .x {

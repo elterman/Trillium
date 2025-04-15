@@ -73,7 +73,7 @@
         align-items: center;
         place-self: end center;
         transform: translateY(13px);
-        color: #f0f8ff;
+        color: var(--gold);
         font-family: Poppins;
         font-size: 15px;
     }

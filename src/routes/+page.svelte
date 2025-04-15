@@ -94,6 +94,59 @@
             -ms-user-select: none;
             user-select: none;
         }
+
+        .gradient-gold {
+            background: -webkit-linear-gradient(-90deg, #ede2c5, #ffe4ad 50%, #d8ac3c 100%);
+        }
+
+        .gradient-green {
+            background: -webkit-linear-gradient(-90deg, #80D880, #8fd65f 50%, #649800 100%);
+        }
+
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .root-scroll {
+            display: grid;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .root-scroll::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        .root-scroll::-webkit-scrollbar-thumb:hover {
+            /* background: #fff5; */
+            background: #ffe4add0;
+        }
+
+        .root-scroll::-webkit-scrollbar-thumb {
+            border-radius: 50vw;
+            /* background: #fff4; */
+            background: #ffe4adb0;
+        }
+
+        /* .root-scroll::-webkit-scrollbar-track {
+        background: #fff2;
+        } */
+
+        .root-scroll::-webkit-scrollbar-track:hover {
+            background: #ffffff05;
+        }
+
+        .root-scroll-mobile::-webkit-scrollbar {
+            width: 2px;
+            height: 2px;
+        }
+
+        .root-scroll-mobile::-webkit-scrollbar-thumb {
+            border-radius: 1px;
+        }
     }
 
     .app {

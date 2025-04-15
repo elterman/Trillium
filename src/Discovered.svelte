@@ -5,7 +5,7 @@
 
 <div class='discovered {_prompt.id || ss.surrender ? 'transparent' : ''}'>
     {#each ss.words as word, i (i)}
-        <div class='word {ss.discovered.includes(word) ? '' : 'hidden'}' transition:fade={{ delay: 1 }}>
+        <div class='word gradient-green {ss.discovered.includes(word) ? '' : 'hidden'}' transition:fade={{ delay: 1 }}>
             {word}
         </div>
     {/each}
@@ -29,7 +29,7 @@
         font-weight: bold;
         border-radius: 50vh;
         height: 28px;
-        background: #80D880;
+        /* background: #80D880; */
         display: grid;
         place-content: center;
         place-self: center;
@@ -39,7 +39,7 @@
     .hidden {
         background: none;
         color: transparent;
-        border: 1px solid #80bfff;
+        border: 1px solid var(--gold);
     }
 
     .transparent {

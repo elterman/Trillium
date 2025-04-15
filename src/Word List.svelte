@@ -48,7 +48,7 @@
         font-family: Poppins;
         font-size: 14px;
         background: #000000c0;
-        border: 2px solid #80bfff80;
+        border: 2px solid #ffe4ad80;
         border-radius: 10px;
         backdrop-filter: blur(10px);
     }
@@ -69,7 +69,8 @@
         grid-area: 1/1;
         display: grid;
         place-content: center;
-        background: var(--blue);
+        background: var(--gold);
+        opacity: 0.7;
         font-weight: bold;
         border-radius: 50%;
         width: 20px;
@@ -79,46 +80,7 @@
 
     .section-content {
         grid-area: 1/2;
-        color: var(--blue);
+        color: var(--gold);
         font-family: Roboto Mono;
-    }
-
-    .root-scroll {
-        display: grid;
-        overflow: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .root-scroll::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
-    }
-
-    .root-scroll::-webkit-scrollbar-thumb:hover {
-        /* background: #fff5; */
-        background: #80bfffd0;
-    }
-
-    .root-scroll::-webkit-scrollbar-thumb {
-        border-radius: 50vw;
-        /* background: #fff4; */
-        background: #80bfffb0;
-    }
-
-    /* .root-scroll::-webkit-scrollbar-track {
-        background: #fff2;
-    } */
-
-    .root-scroll::-webkit-scrollbar-track:hover {
-        background: #ffffff05;
-    }
-
-    .root-scroll-mobile::-webkit-scrollbar {
-        width: 2px;
-        height: 2px;
-    }
-
-    .root-scroll-mobile::-webkit-scrollbar-thumb {
-        border-radius: 1px;
     }
 </style>
