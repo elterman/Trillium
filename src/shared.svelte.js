@@ -1,6 +1,6 @@
 import { dict4 } from '$lib/dicts/dict4';
 import { pool } from '$lib/dicts/pool';
-import { cloneDeep, sample } from 'lodash-es';
+import { cloneDeep, sample, shuffle } from 'lodash-es';
 import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GOOD_JOB, CHEER_OUTSTANDING, CHEER_TRANSCENDENT, DAILY, PROMPT_PLAY_AGAIN } from './const';
 import { _sound } from './sound.svelte';
 import { _prompt, _stats, ss } from './state.svelte';
@@ -109,6 +109,7 @@ const randomPuzzle = () => {
     };
 
     ss.words = pickWords();
+    const letters = shuffle(ss.words[0].concat(ss.words[1].slice(1,4)).concat(ss.words[2].slice(1,3)));
 
     ss.cells = [
         { char: ss.words[0][3], home: 1, pos: 1 },
