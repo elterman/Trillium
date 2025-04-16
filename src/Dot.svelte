@@ -14,29 +14,30 @@
             x = sz / 4;
             y += (sz * sqrt3) / 4;
         } else if (pos === 2) {
-            x = -sz / 4;
-            y += (sz * sqrt3) / 4;
-        } else if (pos === 3) {
             x = (sz * 3) / 4;
             y += (sz * sqrt3 * 3) / 4;
-        } else if (pos === 4) {
-            x = -(sz * 3) / 4;
-            y += (sz * sqrt3 * 3) / 4;
-        } else if (pos === 5) {
+        } else if (pos === 3) {
             x = (sz * 5) / 4;
             y += (sz * sqrt3 * 5) / 4;
-        } else if (pos === 6) {
-            x = -(sz * 5) / 4;
-            y += (sz * sqrt3 * 5) / 4;
-        } else if (pos === 7) {
-            x = -sz;
-            y += (sz * sqrt3 * 6) / 4;
-        } else if (pos === 8) {
-            y += (sz * sqrt3 * 6) / 4;
-        } else if (pos === 9) {
+        } else if (pos === 4) {
             x = sz;
             y += (sz * sqrt3 * 6) / 4;
+        } else if (pos === 5) {
+            y += (sz * sqrt3 * 6) / 4;
+        } else if (pos === 6) {
+            x = -sz;
+            y += (sz * sqrt3 * 6) / 4;
+        } else if (pos === 7) {
+            x = -(sz * 5) / 4;
+            y += (sz * sqrt3 * 5) / 4;
+        } else if (pos === 8) {
+            x = -(sz * 3) / 4;
+            y += (sz * sqrt3 * 3) / 4;
+        } else if (pos === 9) {
+            x = -sz / 4;
+            y += (sz * sqrt3) / 4;
         }
+
         return `translate(${x}px, ${y}px)`;
     });
 </script>

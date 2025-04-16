@@ -6,6 +6,7 @@
     import { post } from './utils';
     import Trillium from '$lib/images/Trillium.webp';
     import Dot from './Dot.svelte';
+    import Arrow from './Arrow.svelte';
 
     const csz = CELL_SIZE;
 
@@ -37,16 +38,13 @@
     {#each ss.cells as cell (cell.home)}
         <Cell {cell} />
     {/each}
-    <img class="img" src={Trillium} alt="Trillium" width={csz * 0.8} style='margin-top: {csz / 2.6 * sqrt3}px'/>
-    <Dot pos={1} />
-    <Dot pos={2} />
-    <Dot pos={3} />
-    <Dot pos={4} />
-    <Dot pos={5} />
-    <Dot pos={6} />
-    <Dot pos={7} />
-    <Dot pos={8} />
-    <Dot pos={9} />
+    <img class="img" src={Trillium} alt="Trillium" width={csz * 0.8} style="margin-top: {(csz / 2.6) * sqrt3}px" />
+    {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as pos (pos)}
+        <Dot {pos} />
+    {/each}
+    {#each [1, 3, 4, 6, 7, 9] as pos (pos)}
+        <Arrow {pos} />
+    {/each}
 </div>
 
 <style>

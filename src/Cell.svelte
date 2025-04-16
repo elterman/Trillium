@@ -15,29 +15,29 @@
         let y = 0;
 
         if (pos === 2) {
-            x = -sz * 0.5;
+            x = sz * 0.5;
             y = off;
         } else if (pos === 3) {
-            x = sz * 0.5;
-            y = off;
-        } else if (pos === 4) {
-            x = -sz;
-            y = off * 2;
-        } else if (pos === 5) {
             x = sz;
             y = off * 2;
-        } else if (pos === 6) {
-            x = -sz * 1.5;
-            y = off * 3;
-        } else if (pos === 7) {
-            x = -sz * 0.5;
-            y = off * 3;
-        } else if (pos === 8) {
-            x = sz * 0.5;
-            y = off * 3;
-        } else if (pos === 9) {
+        } else if (pos === 4) {
             x = sz * 1.5;
             y = off * 3;
+        } else if (pos === 5) {
+            x = sz * 0.5;
+            y = off * 3;
+        } else if (pos === 6) {
+            x = -sz * 0.5;
+            y = off * 3;
+        } else if (pos === 7) {
+            x = -sz * 1.5;
+            y = off * 3;
+        } else if (pos === 8) {
+            x = -sz;
+            y = off * 2;
+        } else if (pos === 9) {
+            x = -sz * 0.5;
+            y = off;
         }
 
         return `translate(${x}px, ${y}px)`;
