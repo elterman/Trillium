@@ -109,23 +109,23 @@ const randomPuzzle = () => {
     };
 
     ss.words = pickWords();
-    const letters = shuffle(ss.words[0].concat(ss.words[1].slice(1,4)).concat(ss.words[2].slice(1,3)));
+    const letters = shuffle(ss.words[0].concat(ss.words[1].slice(1, 4)).concat(ss.words[2].slice(1, 3)));
 
     ss.cells = [
         { char: ss.words[0][3], home: 1, pos: 1 },
-        { char: ss.words[0][2], home: 2, pos: 2 },
-        { char: ss.words[1][1], home: 3, pos: 3 },
-        { char: ss.words[0][1], home: 4, pos: 4 },
-        { char: ss.words[1][2], home: 5, pos: 5 },
-        { char: ss.words[0][0], home: 6, pos: 6 },
-        { char: ss.words[2][1], home: 7, pos: 7 },
-        { char: ss.words[2][2], home: 8, pos: 8 },
-        { char: ss.words[2][3], home: 9, pos: 9 },
+        { char: ss.words[0][2], home: 9, pos: 9 },
+        { char: ss.words[1][1], home: 2, pos: 2 },
+        { char: ss.words[0][1], home: 8, pos: 8 },
+        { char: ss.words[1][2], home: 3, pos: 3 },
+        { char: ss.words[0][0], home: 7, pos: 7 },
+        { char: ss.words[2][1], home: 6, pos: 6 },
+        { char: ss.words[2][2], home: 5, pos: 5 },
+        { char: ss.words[2][3], home: 4, pos: 4 },
     ];
 
     const wordsRevealed = () => wordsRevealedAt(1).length || wordsRevealedAt(7).length;
 
-    const pairs = [[6,4], [4,2], [2,1], [1, 3], [3, 5], [5, 9], [6, 7], [7, 8], [8, 9]];
+    const pairs = [[6, 4], [4, 2], [2, 1], [1, 3], [3, 5], [5, 9], [6, 7], [7, 8], [8, 9]];
 
     // do {
     //     // shuffle
@@ -252,7 +252,7 @@ const wordsAt = (pos) => {
 
         let word = '';
 
-        for (const p of  w) {
+        for (const p of w) {
             const cell = findCell(p);
             word += cell.char;
         }
