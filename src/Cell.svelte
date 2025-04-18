@@ -7,7 +7,7 @@
 
     const { cell } = $props();
     const { char, home, pos } = $derived(cell);
-    const id = $derived(home);
+    const id = $derived(`cell-${home}`);
 
     const transform = $derived.by(() => {
         const sz = CELL_SIZE;
@@ -87,6 +87,8 @@
 
     $effect(() => {
         const onTransitionEnd = (e) => {
+            console.log(e);
+
             if (e.target.id !== id) {
                 return;
             }

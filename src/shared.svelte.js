@@ -77,17 +77,17 @@ export const onOver = () => {
 
 export const swapPairs = (p1, p2) => {
     const swap = (cell1, cell2) => {
-        const p = { ...cell1.pos };
-        cell1.pos = { ...cell2.pos };
-        cell2.pos = p;
+        const sum = cell1.pos + cell2.pos;
+        cell1.pos = sum - cell1.pos;
+        cell2.pos = sum - cell1.pos;
     };
 
-    const cell1 = findCell({ row: p1.r1, col: p1.c1 });
-    const cell3 = findCell({ row: p2.r1, col: p2.c1 });
+    const cell1 = findCell(p1.pos1);
+    const cell3 = findCell(p2.pos1);
     swap(cell1, cell3);
 
-    const cell2 = findCell({ row: p1.r2, col: p1.c2 });
-    const cell4 = findCell({ row: p2.r2, col: p2.c2 });
+    const cell2 = findCell(p1.pos2);
+    const cell4 = findCell(p2.pos2);
     swap(cell2, cell4);
 };
 
@@ -237,6 +237,8 @@ export const persist = (statsOnly = false) => {
 };
 
 export const findCell = (pos) => ss.cells.find((cell) => cell.pos === pos);
+
+export const whichRow = dot => dot < 4 ? 2 : dot < 7 ? 3 : 1;
 
 const wordAt = (row) => {
     const edge = EDGES[row - 1];
