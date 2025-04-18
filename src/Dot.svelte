@@ -1,13 +1,12 @@
 <script>
     import { fade } from 'svelte/transition';
     import { CELL_SIZE, sqrt3 } from './const';
-    import { ss } from './state.svelte';
-    import { _sound } from './sound.svelte';
-    import { post, samePair } from './utils';
     import { swapPairs } from './shared.svelte';
+    import { _sound } from './sound.svelte';
+    import { ss } from './state.svelte';
+    import { post } from './utils';
 
     const { pos } = $props();
-    const pair = { pos1: pos, pos2: pos < 9 ? pos + 1 : 1 };
     const width = CELL_SIZE * 0.6;
 
     const transform = $derived.by(() => {
@@ -49,20 +48,20 @@
     const onPointerDown = () => {
         _sound.play('click');
 
-        if (!ss.pair1) {
-            ss.pair1 = pair;
+        if (!ss.dot1) {
+            ss.dot1 = pos;
             return;
         }
 
-        if (samePair(pair, ss.pair1)) {
-            delete ss.pair1;
+        if (pos === ss.dot1) {
+            delete ss.dot1;
             return;
         }
 
-        ss.pair2 = pair;
+        ss.dot2 = pos;
         ss.steps += 1;
 
-        post(() => swapPairs(ss.pair1, ss.pair2), 100);
+        post(() => swapPairs(ss.dot1, ss.dot2), 100);
     };
 </script>
 
@@ -70,7 +69,7 @@
     class={['dot-target no-highlight']}
     style="width: {width}px; transform: {transform};"
     onpointerdown={onPointerDown}
-    onpointerenter={() => (ss.hover_pair = pair)}
+    onpointerenter={() => (ss.hover_pair = pos)}
     onpointerleave={() => (ss.hover_pair = null)}
     transition:fade>
     <div class="dot"></div>

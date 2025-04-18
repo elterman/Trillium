@@ -75,20 +75,24 @@ export const onOver = () => {
     post(() => doOver(prompt), 500);
 };
 
-export const swapPairs = (p1, p2) => {
+export const secondDot = (dot) => dot < 9 ? dot + 1 : 1;
+
+export const swapPairs = (dot1, dot2) => {
     const swap = (cell1, cell2) => {
         const sum = cell1.pos + cell2.pos;
         cell1.pos = sum - cell1.pos;
         cell2.pos = sum - cell1.pos;
     };
 
-    const cell1 = findCell(p1.pos1);
-    const cell3 = findCell(p2.pos1);
-    swap(cell1, cell3);
+    const sameRow = whichRow(dot1) === whichRow(dot2);
 
-    const cell2 = findCell(p1.pos2);
-    const cell4 = findCell(p2.pos2);
-    swap(cell2, cell4);
+    const cell1 = findCell(dot1);
+    const cell2 = findCell(sameRow ? dot2 : secondDot(dot2));
+    swap(cell1, cell2);
+
+    const cell3 = findCell(secondDot(dot1));
+    const cell4 = findCell(sameRow ? secondDot(dot2) : dot2);
+    swap(cell3, cell4);
 };
 
 const randomPuzzle = () => {
@@ -192,8 +196,8 @@ export const onStart = (replay = false) => {
 
     delete ss.over;
     delete ss.surrender;
-    delete ss.pair1;
-    delete ss.pair2;
+    delete ss.dot1;
+    delete ss.dot2;
 
     persist();
 };
@@ -272,10 +276,6 @@ export const wordRevealedAt = (pos) => {
 };
 
 export const log = (value) => console.log($state.snapshot(value));
-
-export const isHorz = pair => pair.r1 === pair.r2;
-
-export const isOrtho = () => ss.pair2 && !ss.pair2?.shift && isHorz(ss.pair1) !== isHorz(ss.pair2);
 
 export const inPlace = (wob) => {
     const { word, row } = wob;

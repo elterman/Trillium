@@ -1,6 +1,6 @@
 <script>
     import { BLUE, CELL_SIZE, GREEN, OFFWHITE, sqrt3, YELLOW } from './const';
-    import { inPlace, isOrtho, isSolved, onOver, persist, wordRevealedAt } from './shared.svelte';
+    import { inPlace, isSolved, onOver, persist, secondDot, wordRevealedAt } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { ss } from './state.svelte';
     import { post } from './utils';
@@ -47,33 +47,37 @@
     const width = `${CELL_SIZE * 0.85}px`;
     const fsz = `${(CELL_SIZE * 14) / 30}px`;
     let color = $state(BLUE);
-    const zi = $derived(inPair(ss.pair2) ? 2 : inPair(ss.pair1) ? 1 : 0);
+    const zi = $derived(inPair(ss.dot2) ? 2 : inPair(ss.dot1) ? 1 : 0);
     const pairColor = OFFWHITE;
 
     const hidden = $derived.by(() => {
-        if (isOrtho() && (inPair(ss.pair1) || inPair(ss.pair2))) {
-            return true;
-        }
+        // if (isOrtho() && (inPair(ss.pair1) || inPair(ss.pair2))) {
+        //     return true;
+        // }
 
-        if (ss.pair2?.shift && (pos.row === ss.pair2.row || pos.col === ss.pair2.col)) {
-            return true;
-        }
+        // if (ss.dot2?.shift && (pos.row === ss.pair2.row || pos.col === ss.pair2.col)) {
+        //     return true;
+        // }
 
         return false;
     });
 
-    const inPair = (pair) => {
-        if (!pair) {
+    const inPair = (dot) => {
+        if (!dot) {
             return false;
         }
 
-        const { pos1, pos2 } = pair;
+        if (pos === dot) {
+            return true;
+        }
 
-        return pos === pos1 || pos === pos2;
+        const dot2 = secondDot(dot);
+
+        return pos === dot2;
     };
 
     $effect(() => {
-        if (inPair(ss.pair1) || inPair(ss.pair2)) {
+        if (inPair(ss.dot1) || inPair(ss.dot2)) {
             color = pairColor;
             return;
         }
@@ -87,8 +91,6 @@
 
     $effect(() => {
         const onTransitionEnd = (e) => {
-            console.log(e);
-
             if (e.target.id !== id) {
                 return;
             }
@@ -97,12 +99,12 @@
                 return;
             }
 
-            if (ss.pair2) {
+            if (ss.dot2) {
                 _sound.play('cluck');
             }
 
-            delete ss.pair1;
-            delete ss.pair2;
+            delete ss.dot1;
+            delete ss.dot2;
 
             if (isSolved()) {
                 onOver();
