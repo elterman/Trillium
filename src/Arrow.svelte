@@ -3,7 +3,7 @@
     import { CELL_SIZE, sqrt3 } from './const';
     import { ss } from './state.svelte';
     import { _sound } from './sound.svelte';
-    import { findCell } from './shared.svelte';
+    import { findCell, shiftAt } from './shared.svelte';
 
     const { pos } = $props();
     const width = CELL_SIZE * 0.6;
@@ -64,48 +64,9 @@
         ss.steps += 1;
 
         delete ss.dot1;
-        ss.dot2 = { pos, shift: -1 };
+        ss.dot2 = { pos, shift: pos === 1 || pos === 4 || pos === 7 ? -1 : 1 };
 
-        if (pos === 1) {
-            const cells = [findCell(1), findCell(2), findCell(3), findCell(4)];
-            cells[0].pos = 4;
-            cells[1].pos = 1;
-            cells[2].pos = 2;
-            cells[3].pos = 3;
-        } else if (pos === 3) {
-            ss.dot2.shift = 1;
-            const cells = [findCell(1), findCell(2), findCell(3), findCell(4)];
-            cells[0].pos = 2;
-            cells[1].pos = 3;
-            cells[2].pos = 4;
-            cells[3].pos = 1;
-        } else if (pos === 4) {
-            const cells = [findCell(4), findCell(5), findCell(6), findCell(7)];
-            cells[0].pos = 7;
-            cells[1].pos = 4;
-            cells[2].pos = 5;
-            cells[3].pos = 6;
-        } else if (pos === 6) {
-            ss.dot2.shift = 1;
-            const cells = [findCell(4), findCell(5), findCell(6), findCell(7)];
-            cells[0].pos = 5;
-            cells[1].pos = 6;
-            cells[2].pos = 7;
-            cells[3].pos = 4;
-        } else if (pos === 7) {
-            const cells = [findCell(7), findCell(8), findCell(9), findCell(1)];
-            cells[0].pos = 1;
-            cells[1].pos = 7;
-            cells[2].pos = 8;
-            cells[3].pos = 9;
-        } else if (pos === 9) {
-            ss.dot2.shift = 1;
-            const cells = [findCell(7), findCell(8), findCell(9), findCell(1)];
-            cells[0].pos = 8;
-            cells[1].pos = 9;
-            cells[2].pos = 1;
-            cells[3].pos = 7;
-        }
+        shiftAt(pos);
     };
 </script>
 

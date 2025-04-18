@@ -127,13 +127,21 @@ const randomPuzzle = () => {
         { char: ss.words[0][2], home: 9, pos: 9 },
     ];
 
-    // const wordsRevealed = () => wordsRevealedAt(1).length || wordsRevealedAt(7).length;
+    const wordsRevealed = () => wordRevealedAt(1).length || wordRevealedAt(7).length;
 
-    // const pairs = [[6, 4], [4, 2], [2, 1], [1, 3], [3, 5], [5, 9], [6, 7], [7, 8], [8, 9]];
+    do {
+        const pos = [1, 3, 4, 6, 7, 9];
+        const count = [1, 2, 3];
 
-    // do {
-    //     // shuffle
-    // } while (wordsRevealed()); // ensure no words are revealed after swapping pairs
+        for (let i = 0; i < 20; i++) {
+            const p = sample(pos);
+            const n = sample(count);
+
+            for (let j = 0; j < n; j++) {
+                shiftAt(p);
+            }
+        }
+    } while (wordsRevealed());
 };
 
 const pickDaily = () => {
@@ -314,4 +322,44 @@ export const dayOfYear = () => {
     const day = (Date.UTC(year, date.getMonth(), date.getDate()) - Date.UTC(year, 0, 0)) / 24 / 60 / 60 / 1000;
 
     return day;
+};
+
+export const shiftAt = (pos) => {
+    if (pos === 1) {
+        const cells = [findCell(1), findCell(2), findCell(3), findCell(4)];
+        cells[0].pos = 4;
+        cells[1].pos = 1;
+        cells[2].pos = 2;
+        cells[3].pos = 3;
+    } else if (pos === 3) {
+        const cells = [findCell(1), findCell(2), findCell(3), findCell(4)];
+        cells[0].pos = 2;
+        cells[1].pos = 3;
+        cells[2].pos = 4;
+        cells[3].pos = 1;
+    } else if (pos === 4) {
+        const cells = [findCell(4), findCell(5), findCell(6), findCell(7)];
+        cells[0].pos = 7;
+        cells[1].pos = 4;
+        cells[2].pos = 5;
+        cells[3].pos = 6;
+    } else if (pos === 6) {
+        const cells = [findCell(4), findCell(5), findCell(6), findCell(7)];
+        cells[0].pos = 5;
+        cells[1].pos = 6;
+        cells[2].pos = 7;
+        cells[3].pos = 4;
+    } else if (pos === 7) {
+        const cells = [findCell(7), findCell(8), findCell(9), findCell(1)];
+        cells[0].pos = 1;
+        cells[1].pos = 7;
+        cells[2].pos = 8;
+        cells[3].pos = 9;
+    } else if (pos === 9) {
+        const cells = [findCell(7), findCell(8), findCell(9), findCell(1)];
+        cells[0].pos = 8;
+        cells[1].pos = 9;
+        cells[2].pos = 1;
+        cells[3].pos = 7;
+    }
 };
