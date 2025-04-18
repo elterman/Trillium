@@ -45,6 +45,32 @@
         return `translate(${x}px, ${y}px)`;
     });
 
+    const disabled = $derived.by(() => {
+        if (ss.flip) {
+            return true;
+        }
+
+        if (ss.dot2) {
+            return true;
+        }
+
+        if (!ss.dot1) {
+            return false;
+        }
+
+        if (pos === ss.dot1) {
+            return false;
+        }
+
+        const diff = Math.abs(pos - ss.dot1);
+
+        if (diff === 1 || diff === 8) {
+            return true;    // overlap
+        }
+
+        return false;
+    });
+
     const onPointerDown = () => {
         _sound.play('click');
 
@@ -66,7 +92,7 @@
 </script>
 
 <div
-    class={['dot-target no-highlight']}
+    class={['dot-target no-highlight', { disabled }]}
     style="width: {width}px; transform: {transform};"
     onpointerdown={onPointerDown}
     onpointerenter={() => (ss.hover_pair = pos)}

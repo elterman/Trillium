@@ -1,5 +1,6 @@
 <script>
     import { CELL_SIZE, sqrt3 } from './const';
+    import { ss } from './state.svelte';
 
     const { pos } = $props();
     const width = CELL_SIZE * 0.6;
@@ -41,9 +42,21 @@
 
         return `translate(${x}px, ${y}px) rotate(${deg}deg)`;
     });
+
+    const disabled = $derived.by(() => {
+        if (ss.flip) {
+            return true;
+        }
+
+        if (ss.dot2) {
+            return true;
+        }
+
+        return false;
+    });
 </script>
 
-<div class="arrow-target" style="width: {width}px; transform: {transform};">
+<div class={['arrow-target', { disabled }]} style="width: {width}px; transform: {transform};">
     <div class="content">
         <div class="circle"></div>
         <div class="arrow"></div>
