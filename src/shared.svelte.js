@@ -1,7 +1,7 @@
 import { dict4 } from '$lib/dicts/dict4';
 import { pool } from '$lib/dicts/pool';
 import { cloneDeep, sample, shuffle } from 'lodash-es';
-import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GOOD_JOB, CHEER_OUTSTANDING, CHEER_TRANSCENDENT, DAILY, PROMPT_PLAY_AGAIN } from './const';
+import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GOOD_JOB, CHEER_OUTSTANDING, CHEER_TRANSCENDENT, DAILY, EDGES, PROMPT_PLAY_AGAIN } from './const';
 import { _sound } from './sound.svelte';
 import { _prompt, _stats, ss } from './state.svelte';
 import { iofpos, posofi, post } from './utils';
@@ -109,23 +109,23 @@ const randomPuzzle = () => {
     };
 
     ss.words = pickWords();
-    const letters = shuffle(ss.words[0].concat(ss.words[1].slice(1, 4)).concat(ss.words[2].slice(1, 3)));
+    // const letters = shuffle(ss.words[0].concat(ss.words[1].slice(1, 4)).concat(ss.words[2].slice(1, 3)));
 
     ss.cells = [
         { char: ss.words[0][3], home: 1, pos: 1 },
-        { char: ss.words[0][2], home: 9, pos: 9 },
         { char: ss.words[1][1], home: 2, pos: 2 },
-        { char: ss.words[0][1], home: 8, pos: 8 },
         { char: ss.words[1][2], home: 3, pos: 3 },
-        { char: ss.words[0][0], home: 7, pos: 7 },
-        { char: ss.words[2][1], home: 6, pos: 6 },
-        { char: ss.words[2][2], home: 5, pos: 5 },
         { char: ss.words[2][3], home: 4, pos: 4 },
+        { char: ss.words[2][2], home: 5, pos: 5 },
+        { char: ss.words[2][1], home: 6, pos: 6 },
+        { char: ss.words[0][0], home: 7, pos: 7 },
+        { char: ss.words[0][1], home: 8, pos: 8 },
+        { char: ss.words[0][2], home: 9, pos: 9 },
     ];
 
-    const wordsRevealed = () => wordsRevealedAt(1).length || wordsRevealedAt(7).length;
+    // const wordsRevealed = () => wordsRevealedAt(1).length || wordsRevealedAt(7).length;
 
-    const pairs = [[6, 4], [4, 2], [2, 1], [1, 3], [3, 5], [5, 9], [6, 7], [7, 8], [8, 9]];
+    // const pairs = [[6, 4], [4, 2], [2, 1], [1, 3], [3, 5], [5, 9], [6, 7], [7, 8], [8, 9]];
 
     // do {
     //     // shuffle
@@ -227,7 +227,7 @@ export const makePool = () => {
 };
 
 export const persist = (statsOnly = false) => {
-    let json = statsOnly ? { ..._stats } :
+    const json = statsOnly ? { ..._stats } :
         {
             ..._stats, day: ss.day || 0, cells: ss.cells, steps: ss.steps, discovered: ss.discovered,
             replay: ss.replay, initial: ss.initial
@@ -238,34 +238,35 @@ export const persist = (statsOnly = false) => {
 
 export const findCell = (pos) => ss.cells.find((cell) => cell.pos === pos);
 
-const wordsAt = (pos) => {
-    let words = [];
+const wordAt = (row) => {
+    const edge = EDGES[row - 1];
 
-    const w1 = [6, 4, 2, 1];
-    const w2 = [9, 5, 3, 1];
-    const w3 = [6, 7, 8, 9];
+    let word = '';
 
-    for (const w of [w1, w2, w3]) {
-        if (!w.includes(pos)) {
+    for (const p of edge) {
+        const cell = findCell(p);
+        word += cell.char;
+    }
+
+    return word;
+};
+
+export const wordRevealedAt = (pos) => {
+    for (const row of [1, 2, 3]) {
+        const edge = EDGES[row - 1];
+
+        if (!edge.includes(pos)) {
             continue;
         }
 
-        let word = '';
+        const word = wordAt(row);
 
-        for (const p of w) {
-            const cell = findCell(p);
-            word += cell.char;
+        if (ss.words.includes(word)) {
+            return { word, row };
         }
-
-        words.push(word);
     }
 
-    return words;
-};
-
-export const wordsRevealedAt = (pos) => {
-    const words = wordsAt(pos).filter((word) => ss.words.includes(word));
-    return words;
+    return null;
 };
 
 export const log = (value) => console.log($state.snapshot(value));
@@ -274,7 +275,10 @@ export const isHorz = pair => pair.r1 === pair.r2;
 
 export const isOrtho = () => ss.pair2 && !ss.pair2?.shift && isHorz(ss.pair1) !== isHorz(ss.pair2);
 
-export const inPlace = (word, row) => row - 1 === ss.words.indexOf(word);
+export const inPlace = (wob) => {
+    const { word, row } = wob;
+    return ss.words[row - 1] === word;
+};
 
 export const isSolved = (silent = false) => {
     // let solved = 0;

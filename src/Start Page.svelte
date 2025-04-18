@@ -29,7 +29,7 @@
         ss.cells = job.cells;
 
         const chars = job.cells.map((cell) => cell.char);
-        ss.words = [chars.slice(0, 3).join(''), chars.slice(3, 6).join(''), chars.slice(6, 9).join('')];
+        ss.words = [chars.slice(6).join('') + chars[0], chars.slice(0, 4).join(''), chars.slice(3, 7).reverse().join('')];
 
         ss.steps = job.steps;
         ss.discovered = job.discovered;

@@ -6,35 +6,37 @@
 
     const transform = $derived.by(() => {
         const sz = CELL_SIZE;
-        const dx = sz / 2;
-        const dy = dx / sqrt3;
+        const off = sz * sqrt3;
+        const off1 = sz / 2;
+        const off2 = off1 / 2;
+        const off3 = off2 * sqrt3;
         let deg = 0;
         let x = 0;
         let y = (sz - width) / 2;
 
         if (pos === 1) {
             deg = 60;
-            x = sz / 4 + dx;
-            y += (sz * sqrt3) / 4 - dy;
+            x = sz / 4 + off3;
+            y += off / 4 - off2;
         } else if (pos === 3) {
             deg = 240;
-            x = (sz * 5) / 4 + dx;
-            y += (sz * sqrt3 * 5) / 4 - dy;
+            x = (sz * 5) / 4 + off3;
+            y += (off * 5) / 4 - off2;
         } else if (pos === 4) {
             deg = 180;
             x = sz;
-            y += (sz * sqrt3 * 6) / 4 + (dx * 2 / sqrt3);
+            y += (off * 6) / 4 + off1;
         } else if (pos === 6) {
             x = -sz;
-            y += (sz * sqrt3 * 6) / 4 + (dx * 2 / sqrt3);
+            y += (off * 6) / 4 + off1;
         } else if (pos === 7) {
             deg = -60;
-            x = -(sz * 5) / 4 - dx;
-            y += (sz * sqrt3 * 5) / 4 - dy;
+            x = -(sz * 5) / 4 - off3;
+            y += (off * 5) / 4 - off2;
         } else if (pos === 9) {
             deg = 120;
-            x = -sz / 4 - dx;
-            y += (sz * sqrt3) / 4 - dy;
+            x = -sz / 4 - off3;
+            y += off / 4 - off2;
         }
 
         return `translate(${x}px, ${y}px) rotate(${deg}deg)`;

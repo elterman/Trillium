@@ -58,7 +58,7 @@ export const samePair = (p1, p2) => {
         return false;
     }
 
-    if (samePos({ row: p1.r1, col: p1.c1 }, { row: p2.r1, col: p2.c1 }) && samePos({ row: p1.r2, col: p1.c2 }, { row: p2.r2, col: p2.c2 })) {
+    if (p1.pos1 === p2.pos1 && p1.pos2 === p2.pos2) {
         return true;
     }
 
