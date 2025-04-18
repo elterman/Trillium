@@ -54,18 +54,32 @@
             return true;
         }
 
-        if (!ss.dot1) {
+        const dot = ss.dot1;
+
+        if (!dot) {
             return false;
         }
 
-        if (pos === ss.dot1) {
+        if (pos === dot) {
             return false;
         }
 
-        const diff = Math.abs(pos - ss.dot1);
+        if ((pos === 3 && dot === 4) || (pos === 4 && dot === 3)) {
+            return false;
+        }
 
-        if (diff === 1 || diff === 8) {
-            return true;    // overlap
+        if ((pos === 6 && dot === 7) || (pos === 7 && dot === 6)) {
+            return false;
+        }
+
+        const diff = Math.abs(pos - dot);
+
+        if (diff === 8) {
+            return false;
+        }
+
+        if (diff === 1) {
+            return true; // overlap
         }
 
         return false;
