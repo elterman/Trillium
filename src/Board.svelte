@@ -33,7 +33,7 @@
 
 <div
     id="board"
-    class="board {ss.flip ? 'flipped' : ''} {ss.pair2?.shift ? 'no-overflow' : ''}"
+    class="board {ss.flip ? 'flipped' : ''} {ss.dot2?.shift ? 'no-overflow' : ''}"
     style="width: {csz * 4}px; height: {csz * 1.5 * sqrt3 + csz}px; ">
     {#each ss.cells as cell (cell.home)}
         <Cell {cell} />
