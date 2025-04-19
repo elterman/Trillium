@@ -1,9 +1,9 @@
 <script>
     import { fade } from 'svelte/transition';
     import { CELL_SIZE, sqrt3 } from './const';
-    import { ss } from './state.svelte';
+    import { shiftAt } from './shared.svelte';
     import { _sound } from './sound.svelte';
-    import { findCell, shiftAt } from './shared.svelte';
+    import { ss } from './state.svelte';
 
     const { pos } = $props();
     const width = CELL_SIZE * 0.6;
@@ -11,7 +11,7 @@
     const transform = $derived.by(() => {
         const sz = CELL_SIZE;
         const off = sz * sqrt3;
-        const off1 = sz / 2;
+        const off1 = sz / 1.45;
         const off2 = off1 / 2;
         const off3 = off2 * sqrt3;
         let deg = 0;
