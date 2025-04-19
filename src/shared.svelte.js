@@ -127,7 +127,7 @@ const randomPuzzle = () => {
         { char: ss.words[0][2], home: 9, pos: 9 },
     ];
 
-    const wordsRevealed = () => wordRevealedAt(1).length || wordRevealedAt(7).length;
+    const wordsRevealed = () => wordRevealedAt(1) || wordRevealedAt(7);
 
     do {
         const pos = [1, 3, 4, 6, 7, 9];
