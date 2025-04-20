@@ -152,7 +152,7 @@
 
 <div
     {id}
-    class="cell {disabled ? 'disabled' : ''} {ss.surrender ? 'surrender' : ''}"
+    class="cell no-highlight {disabled ? 'disabled' : ''} {ss.surrender ? 'surrender' : ''}"
     style="width: {CELL_SIZE}px; transform: {transform}; z-index: {zi}; cursor: {cursor}"
     onpointerdown={onPointerDown}>
     <div class="content {ss.over ? 'pulse' : ''}" style="width: {width}; font-size: {fsz}; background: {color};">
