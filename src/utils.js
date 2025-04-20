@@ -73,4 +73,4 @@ export const iofpos = (pos) => {
     return pos;
 };
 
-export const range = n => [...Array(n + 1).keys()].slice(1)
+export const range = n => [...Array(n + 1).keys()].slice(1);

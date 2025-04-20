@@ -77,6 +77,15 @@ export const onOver = () => {
 
 export const secondDot = (dot) => dot < 9 ? dot + 1 : 1;
 
+export const swapCells = (pos1, pos2) => {
+    const cell1 = findCell(pos1);
+    const cell2 = findCell(pos2);
+
+    const sum = cell1.pos + cell2.pos;
+    cell1.pos = sum - cell1.pos;
+    cell2.pos = sum - cell1.pos;
+};
+
 export const swapPairs = (dot1, dot2) => {
     const swap = (cell1, cell2) => {
         const sum = cell1.pos + cell2.pos;
@@ -204,8 +213,8 @@ export const onStart = (replay = false) => {
 
     delete ss.over;
     delete ss.surrender;
-    delete ss.dot1;
-    delete ss.dot2;
+    delete ss.sel1;
+    delete ss.sel2;
 
     persist();
 };

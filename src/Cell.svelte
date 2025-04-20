@@ -1,6 +1,6 @@
 <script>
     import { BLUE, CELL_SIZE, GREEN, OFFWHITE, sqrt3, YELLOW } from './const';
-    import { inPlace, isSolved, onOver, persist, secondDot, wordRevealedAt } from './shared.svelte';
+    import { inPlace, isSolved, onOver, persist, swapCells, wordRevealedAt } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { ss } from './state.svelte';
     import { post } from './utils';
@@ -47,44 +47,57 @@
     const width = `${CELL_SIZE * 0.85}px`;
     const fsz = `${(CELL_SIZE * 14) / 30}px`;
     let color = $state(BLUE);
-    const zi = $derived(inPair(ss.dot2) ? 2 : inPair(ss.dot1) ? 1 : 0);
+    const zi = $derived(pos === ss.sel2 ? 2 : pos === ss.sel1 ? 1 : 0);
+    const cursor = $derived((ss.sel1 && ss.sel2) || disabled ? 'initial' : 'pointer');
     const pairColor = OFFWHITE;
 
-    const hidden = $derived.by(() => {
-        // if (isOrtho() && (inPair(ss.pair1) || inPair(ss.pair2))) {
-        //     return true;
-        // }
-
-        // if (ss.dot2?.shift && (pos.row === ss.pair2.row || pos.col === ss.pair2.col)) {
-        //     return true;
-        // }
-
-        return false;
-    });
-
-    const inPair = (dot) => {
-        if (!dot) {
+    const disabled = $derived.by(() => {
+        if (!ss.sel1 || ss.sel2) {
             return false;
         }
 
-        if (pos === dot) {
+        const sel = ss.sel1;
+
+        if (pos === 1) {
+            if (sel === 5 || sel === 6) {
+                return true;
+            }
+        } else if (pos < 4) {
+            if (sel > 4) {
+                return true;
+            }
+        } else if (pos === 4) {
+            if (sel === 8 || sel === 9) {
+                return true;
+            }
+        } else if (pos < 7) {
+            if (sel < 4 || sel > 7) {
+                return true;
+            }
+        } else if (pos === 7) {
+            if (sel === 2 || sel === 3) {
+                return true;
+            }
+        } else if (sel > 1 && sel < 7) {
             return true;
         }
-
-        const dot2 = secondDot(dot);
-
-        return pos === dot2;
-    };
+    });
 
     $effect(() => {
-        if (inPair(ss.dot1) || inPair(ss.dot2)) {
+        if (pos === ss.sel1 || pos === ss.sel2) {
             color = pairColor;
             return;
         }
 
         const prevColor = color;
-        const wob = wordRevealedAt(pos);
-        const newColor = wob ? (inPlace(wob) ? GREEN : YELLOW) : BLUE;
+        // const wob = wordRevealedAt(pos);
+        // const newColor = wob ? (inPlace(wob) ? GREEN : YELLOW) : BLUE;
+
+        let newColor = BLUE;
+
+        if ((pos < 5 && ss.words[1][pos - 1] === char) || (pos > 6 && ss.words[0][pos - 7] === char) || ss.words[2][7 - pos] === char) {
+            newColor = GREEN;
+        }
 
         post(() => (color = newColor), prevColor === pairColor || prevColor === newColor ? 0 : 1000);
     });
@@ -99,12 +112,12 @@
                 return;
             }
 
-            if (ss.dot2) {
+            if (ss.sel2) {
                 _sound.play('cluck');
             }
 
-            delete ss.dot1;
-            delete ss.dot2;
+            delete ss.sel1;
+            delete ss.sel2;
 
             if (isSolved()) {
                 onOver();
@@ -116,15 +129,33 @@
         window.addEventListener('transitionend', onTransitionEnd);
         return () => window.removeEventListener('transitionend', onTransitionEnd);
     });
+
+    const onPointerDown = () => {
+        _sound.play('click');
+
+        if (!ss.sel1) {
+            ss.sel1 = pos;
+            return;
+        }
+
+        if (pos === ss.sel1) {
+            delete ss.sel1;
+            return;
+        }
+
+        ss.sel2 = pos;
+        ss.steps += 1;
+
+        post(() => swapCells(ss.sel1, ss.sel2), 100);
+    };
 </script>
 
 <div
     {id}
-    class="cell {hidden ? 'hidden' : ''} {ss.surrender ? 'surrender' : ''}"
-    style="width: {CELL_SIZE}px; transform: {transform}; z-index: {zi}">
-    <div
-        class="content {color !== pairColor && inPair(ss.hover_pair) ? 'hover' : ''} {ss.over ? 'pulse' : ''}"
-        style="width: {width}; font-size: {fsz}; background: {color};">
+    class="cell {disabled ? 'disabled' : ''} {ss.surrender ? 'surrender' : ''}"
+    style="width: {CELL_SIZE}px; transform: {transform}; z-index: {zi}; cursor: {cursor}"
+    onpointerdown={onPointerDown}>
+    <div class="content {ss.over ? 'pulse' : ''}" style="width: {width}; font-size: {fsz}; background: {color};">
         {char}
     </div>
 </div>
@@ -141,8 +172,17 @@
         place-content: center;
     }
 
-    .hidden {
-        opacity: 0;
+    .cell:hover {
+        filter: hue-rotate(10deg) contrast(1.1) brightness(1.1);
+    }
+
+    .disabled {
+        filter: grayscale(1);
+        opacity: 0.5;
+    }
+
+    .disabled:hover {
+        filter: grayscale(1);
     }
 
     .surrender {
@@ -174,9 +214,5 @@
         to {
             transform: scale(0.85);
         }
-    }
-
-    .hover {
-        filter: hue-rotate(10deg) contrast(1.1) brightness(1.1);
     }
 </style>
