@@ -3,7 +3,7 @@
     import { CELL_SIZE, sqrt3 } from './const';
     import { makePuzzle } from './shared.svelte';
     import { ss } from './state.svelte';
-    import { post } from './utils';
+    import { post, range } from './utils';
     import Trillium from '$lib/images/Trillium.webp';
     import Dot from './Dot.svelte';
     import Arrow from './Arrow.svelte';
@@ -39,11 +39,8 @@
         <Cell {cell} />
     {/each}
     <img class="img" src={Trillium} alt="Trillium" width={csz * 0.8} style="margin-top: {(csz / 2.6) * sqrt3}px" />
-    {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as pos (pos)}
+    {#each range(9) as pos (pos)}
         <Dot {pos} />
-    {/each}
-    {#each [1, 3, 4, 6, 7, 9] as pos (pos)}
-        <Arrow {pos} />
     {/each}
 </div>
 
