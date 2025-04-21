@@ -40,6 +40,14 @@
         } else if (pos === 9) {
             x = -sz / 4;
             y += (sz * sqrt3) / 4;
+        } else if (pos === 10) {
+            y += (sz * sqrt3 * 2) / 4;
+        } else if (pos === 11) {
+            x = (sz * 3) / 4;
+            y += (sz * sqrt3 * 5) / 4;
+        } else if (pos === 12) {
+            x = (sz * 3) / 4;
+            y += (sz * sqrt3 * 5) / 4;
         }
 
         return `translate(${x}px, ${y}px)`;
