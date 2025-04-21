@@ -1,7 +1,7 @@
 import { dict4 } from '$lib/dicts/dict4';
 import { pool } from '$lib/dicts/pool';
 import { cloneDeep, sample, shuffle } from 'lodash-es';
-import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GOOD_JOB, CHEER_OUTSTANDING, CHEER_TRANSCENDENT, DAILY, EDGES, PROMPT_PLAY_AGAIN } from './const';
+import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GOOD_JOB, CHEER_OUTSTANDING, CHEER_TRANSCENDENT, DAILY, EDGES, PROMPT_PLAY_AGAIN, SECTIONS } from './const';
 import { _sound } from './sound.svelte';
 import { _prompt, _stats, ss } from './state.svelte';
 import { iofpos, posofi, post } from './utils';
@@ -104,6 +104,43 @@ export const swapPairs = (dot1, dot2) => {
     swap(cell3, cell4);
 };
 
+export const swapSections = (pos1, pos2) => {
+    const sec = (p) => p == 1 ? 'top' : p === 3 ? 'right' : p === 8 ? 'left' : null;
+    const sec1 = SECTIONS[sec(pos1)];
+    const sec2 = SECTIONS[sec(pos2)];
+
+    if (!sec1 || !sec2) {
+        return;
+    }
+
+    for (let i = 0; i < 3; i++) {
+        swapCells(sec1[i], sec2[i]);
+    }
+};
+
+export const rotateCells = (pos) => {
+    const sec = pos === 2 || pos === 9 ? 'top' : pos === 4 || pos === 5 ? 'right' : pos === 6 || pos === 7 ? 'left' : null;
+
+    if (sec === null) {
+        return;
+    }
+
+    const section = [...SECTIONS[sec]];
+    const cells = section.map(p => findCell(p));
+
+    const clockwise = pos === 2 || pos === 3 || pos === 4 || pos === 6;
+
+    if (clockwise) {
+        section.push(section.shift());
+    } else {
+        section.unshift(section.pop());
+    }
+
+    for (let i = 0; i < section.length; i++) {
+        cells[i].pos = section[i];
+    }
+};
+
 const randomPuzzle = () => {
     const pickWords = () => {
         let w1, w2, w3;
@@ -138,19 +175,19 @@ const randomPuzzle = () => {
 
     const wordsRevealed = () => wordRevealedAt(1) || wordRevealedAt(7);
 
-    do {
-        const pos = [1, 3, 4, 6, 7, 9];
-        const count = [1, 2, 3];
+    // do {
+    //     const pos = [1, 3, 4, 6, 7, 9];
+    //     const count = [1, 2, 3];
 
-        for (let i = 0; i < 20; i++) {
-            const p = sample(pos);
-            const n = sample(count);
+    //     for (let i = 0; i < 20; i++) {
+    //         const p = sample(pos);
+    //         const n = sample(count);
 
-            for (let j = 0; j < n; j++) {
-                shiftAt(p);
-            }
-        }
-    } while (wordsRevealed());
+    //         for (let j = 0; j < n; j++) {
+    //             shiftAt(p);
+    //         }
+    //     }
+    // } while (wordsRevealed());
 };
 
 const pickDaily = () => {

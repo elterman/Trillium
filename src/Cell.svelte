@@ -1,6 +1,6 @@
 <script>
     import { BLUE, CELL_SIZE, GREEN, OFFWHITE, sqrt3, YELLOW } from './const';
-    import { inPlace, isSolved, onOver, persist, swapCells, wordRevealedAt } from './shared.svelte';
+    import { inPlace, isSolved, onOver, persist, rotateCells, swapCells, swapSections, wordRevealedAt } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { ss } from './state.svelte';
     import { post } from './utils';
@@ -52,35 +52,35 @@
     const pairColor = OFFWHITE;
 
     const disabled = $derived.by(() => {
-        if (!ss.sel1 || ss.sel2) {
-            return false;
-        }
+        // if (!ss.sel1 || ss.sel2) {
+        //     return false;
+        // }
 
-        const sel = ss.sel1;
+        // const sel = ss.sel1;
 
-        if (pos === 1) {
-            if (sel === 5 || sel === 6) {
-                return true;
-            }
-        } else if (pos < 4) {
-            if (sel > 4) {
-                return true;
-            }
-        } else if (pos === 4) {
-            if (sel === 8 || sel === 9) {
-                return true;
-            }
-        } else if (pos < 7) {
-            if (sel < 4 || sel > 7) {
-                return true;
-            }
-        } else if (pos === 7) {
-            if (sel === 2 || sel === 3) {
-                return true;
-            }
-        } else if (sel > 1 && sel < 7) {
-            return true;
-        }
+        // if (pos === 1) {
+        //     if (sel === 5 || sel === 6) {
+        //         return true;
+        //     }
+        // } else if (pos < 4) {
+        //     if (sel > 4) {
+        //         return true;
+        //     }
+        // } else if (pos === 4) {
+        //     if (sel === 8 || sel === 9) {
+        //         return true;
+        //     }
+        // } else if (pos < 7) {
+        //     if (sel < 4 || sel > 7) {
+        //         return true;
+        //     }
+        // } else if (pos === 7) {
+        //     if (sel === 2 || sel === 3) {
+        //         return true;
+        //     }
+        // } else if (sel > 1 && sel < 7) {
+        //     return true;
+        // }
     });
 
     $effect(() => {
@@ -90,14 +90,8 @@
         }
 
         const prevColor = color;
-        // const wob = wordRevealedAt(pos);
-        // const newColor = wob ? (inPlace(wob) ? GREEN : YELLOW) : BLUE;
-
-        let newColor = BLUE;
-
-        if ((pos < 5 && ss.words[1][pos - 1] === char) || (pos > 6 && ss.words[0][pos - 7] === char) || ss.words[2][7 - pos] === char) {
-            newColor = GREEN;
-        }
+        const wob = wordRevealedAt(pos);
+        const newColor = wob ? (inPlace(wob) ? GREEN : YELLOW) : BLUE;
 
         post(() => (color = newColor), prevColor === pairColor || prevColor === newColor ? 0 : 1000);
     });
@@ -133,20 +127,24 @@
     const onPointerDown = () => {
         _sound.play('click');
 
-        if (!ss.sel1) {
-            ss.sel1 = pos;
-            return;
+        if (pos === 1 || pos === 3 || pos === 8) {
+            if (!ss.sel1) {
+                ss.sel1 = pos;
+                return;
+            }
+
+            if (pos === ss.sel1) {
+                delete ss.sel1;
+                return;
+            }
+
+            ss.sel2 = pos;
+            post(() => swapSections(ss.sel1, ss.sel2), 100);
+        } else {
+            post(() => rotateCells(pos), 100);
         }
 
-        if (pos === ss.sel1) {
-            delete ss.sel1;
-            return;
-        }
-
-        ss.sel2 = pos;
         ss.steps += 1;
-
-        post(() => swapCells(ss.sel1, ss.sel2), 100);
     };
 </script>
 
