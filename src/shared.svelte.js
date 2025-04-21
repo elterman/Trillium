@@ -1,7 +1,7 @@
 import { dict4 } from '$lib/dicts/dict4';
 import { pool } from '$lib/dicts/pool';
-import { cloneDeep, sample, shuffle } from 'lodash-es';
-import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GOOD_JOB, CHEER_OUTSTANDING, CHEER_TRANSCENDENT, DAILY, EDGES, PROMPT_PLAY_AGAIN } from './const';
+import { cloneDeep, sample } from 'lodash-es';
+import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GOOD_JOB, CHEER_OUTSTANDING, CHEER_TRANSCENDENT, DAILY, EDGES, PROMPT_PLAY_AGAIN, SECTIONS } from './const';
 import { _sound } from './sound.svelte';
 import { _prompt, _stats, ss } from './state.svelte';
 import { iofpos, posofi, post } from './utils';
@@ -130,16 +130,16 @@ const randomPuzzle = () => {
     const wordsRevealed = () => wordRevealedAt(1) || wordRevealedAt(7);
 
     do {
-        const pos = [1, 3, 4, 6, 7, 9];
-        const count = [1, 2, 3];
+        let dots = [1, 3, 4, 6, 7, 9, 10, 11, 12];
 
-        for (let i = 0; i < 20; i++) {
-            const p = sample(pos);
-            const n = sample(count);
+        for (let i = 0; i < 30; i++) {
+            swapCellsAt(sample(dots));
+        }
 
-            for (let j = 0; j < n; j++) {
-                shiftAt(p);
-            }
+        dots = [2, 5, 8];
+
+        for (let i = 0; i < 10; i++) {
+            swapSections(sample(dots));
         }
     } while (wordsRevealed());
 };
@@ -361,5 +361,43 @@ export const shiftAt = (pos) => {
         cells[1].pos = 9;
         cells[2].pos = 1;
         cells[3].pos = 7;
+    }
+};
+
+export const swapCells = (pos1, pos2) => {
+    const cell1 = findCell(pos1);
+    const cell2 = findCell(pos2);
+
+    const sum = cell1.pos + cell2.pos;
+    cell1.pos = sum - cell1.pos;
+    cell2.pos = sum - cell1.pos;
+};
+
+export const swapCellsAt = (dot) => {
+    let pos1, pos2;
+
+    if (dot === 1 || dot === 3 || dot === 4 || dot === 6 || dot === 7 || dot === 9) {
+        pos1 = dot;
+        pos2 = dot < 9 ? dot + 1 : 1;
+    } else if (dot === 10) {
+        pos1 = 2;
+        pos2 = 9;
+    } else if (dot === 11) {
+        pos1 = 3;
+        pos2 = 5;
+    } else if (dot === 12) {
+        pos1 = 6;
+        pos2 = 8;
+    }
+
+    swapCells(pos1, pos2);
+};
+
+export const swapSections = (pos) => {
+    const sec1 = SECTIONS[pos === 2 ? 'top' : pos === 5 ? 'right' : 'left'];
+    const sec2 = SECTIONS[pos === 2 ? 'right' : pos === 5 ? 'left' : 'top'];
+
+    for (let i = 0; i < 3; i++) {
+        swapCells(sec1[i], sec2[i]);
     }
 };

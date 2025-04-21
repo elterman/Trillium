@@ -1,13 +1,13 @@
 <script>
     import { fade } from 'svelte/transition';
-    import { CELL_SIZE, sqrt3 } from './const';
-    import { swapPairs } from './shared.svelte';
+    import { CELL_CONTENT_SIZE, CELL_SIZE, sqrt3 } from './const';
+    import { swapCellsAt, swapSections } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { ss } from './state.svelte';
     import { post } from './utils';
 
     const { pos } = $props();
-    const width = CELL_SIZE * 0.6;
+    const width = CELL_CONTENT_SIZE * 0.6;
 
     const transform = $derived.by(() => {
         const sz = CELL_SIZE;
@@ -46,80 +46,36 @@
             x = (sz * 3) / 4;
             y += (sz * sqrt3 * 5) / 4;
         } else if (pos === 12) {
-            x = (sz * 3) / 4;
+            x = (-sz * 3) / 4;
             y += (sz * sqrt3 * 5) / 4;
         }
 
         return `translate(${x}px, ${y}px)`;
     });
 
-    const disabled = $derived.by(() => {
-        if (ss.flip) {
-            return true;
-        }
-
-        if (ss.dot2) {
-            return true;
-        }
-
-        const dot = ss.dot1;
-
-        if (!dot) {
-            return false;
-        }
-
-        if (pos === dot) {
-            return false;
-        }
-
-        if ((pos === 3 && dot === 4) || (pos === 4 && dot === 3)) {
-            return false;
-        }
-
-        if ((pos === 6 && dot === 7) || (pos === 7 && dot === 6)) {
-            return false;
-        }
-
-        const diff = Math.abs(pos - dot);
-
-        if (diff === 8) {
-            return false;
-        }
-
-        if (diff === 1) {
-            return true; // overlap
-        }
-
-        return false;
-    });
-
     const onPointerDown = () => {
         _sound.play('click');
 
-        if (!ss.dot1) {
-            ss.dot1 = pos;
-            return;
+        if (pos === 2 || pos === 5 || pos === 8) {
+            post(() => swapSections(pos), 100);
+        } else {
+            post(() => swapCellsAt(pos), 100);
         }
 
-        if (pos === ss.dot1) {
-            delete ss.dot1;
-            return;
-        }
-
-        ss.dot2 = pos;
         ss.steps += 1;
-
-        post(() => swapPairs(ss.dot1, ss.dot2), 100);
     };
 </script>
 
 <div
-    class={['dot-target no-highlight', { disabled }]}
+    class="dot-target no-highlight"
     style="width: {width}px; transform: {transform};"
     onpointerdown={onPointerDown}
     onpointerenter={() => (ss.hover_pair = pos)}
     onpointerleave={() => (ss.hover_pair = null)}
     transition:fade>
+    {#if pos === 2 || pos === 5 || pos === 8}
+        <div class="circle"></div>
+    {/if}
     <div class="dot"></div>
 </div>
 
@@ -136,16 +92,21 @@
         /* background: #00000020; */
     }
 
-    .disabled {
-        opacity: 0;
-        pointer-events: none;
-        cursor: initial;
-    }
-
     .dot {
+        grid-area: 1/1;
         width: 13%;
         aspect-ratio: 1;
         background: var(--gold);
+        border-radius: 50%;
+        place-self: center;
+    }
+
+    .circle {
+        grid-area: 1/1;
+        width: 32%;
+        aspect-ratio: 1;
+        box-sizing: border-box;
+        border: 1px solid var(--gold);
         border-radius: 50%;
         place-self: center;
     }

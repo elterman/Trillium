@@ -1,5 +1,5 @@
 <script>
-    import { BLUE, CELL_SIZE, GREEN, OFFWHITE, sqrt3, YELLOW } from './const';
+    import { BLUE, CELL_SIZE, CELL_CONTENT_SIZE, GREEN, OFFWHITE, sqrt3, YELLOW } from './const';
     import { inPlace, isSolved, onOver, persist, secondDot, wordRevealedAt } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { ss } from './state.svelte';
@@ -44,8 +44,8 @@
         return `translate(${x}px, ${y}px)`;
     });
 
-    const width = `${CELL_SIZE * 0.85}px`;
-    const fsz = `${(CELL_SIZE * 14) / 30}px`;
+    const width = `${CELL_CONTENT_SIZE * 0.85}px`;
+    const fsz = `${(CELL_CONTENT_SIZE * 14) / 30}px`;
     let color = $state(BLUE);
     const zi = $derived(inPair(ss.dot2) ? 2 : inPair(ss.dot1) ? 1 : 0);
     const pairColor = OFFWHITE;
