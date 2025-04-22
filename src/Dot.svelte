@@ -74,9 +74,10 @@
     onpointerleave={() => (ss.hover_pair = null)}
     transition:fade>
     {#if pos === 2 || pos === 5 || pos === 8}
-        <div class="circle"></div>
+        <div class="star"></div>
+    {:else}
+        <div class="dot"></div>
     {/if}
-    <div class="dot"></div>
 </div>
 
 <style>
@@ -94,20 +95,20 @@
 
     .dot {
         grid-area: 1/1;
-        width: 13%;
+        width: 15%;
         aspect-ratio: 1;
         background: var(--gold);
         border-radius: 50%;
         place-self: center;
     }
 
-    .circle {
+    .star {
         grid-area: 1/1;
-        width: 32%;
+        width: 33%;
+        display: grid;
         aspect-ratio: 1;
-        box-sizing: border-box;
-        border: 1px solid var(--gold);
-        border-radius: 50%;
+        background: var(--gold);
+        clip-path: polygon(0% 50%, 40% 40%, 50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%);
         place-self: center;
     }
 </style>

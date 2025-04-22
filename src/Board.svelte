@@ -37,7 +37,7 @@
     {#each ss.cells as cell (cell.home)}
         <Cell {cell} />
     {/each}
-    <img class="img" src={Trillium} alt="Trillium" width={csz * 0.8} style="margin-top: {(csz / 2.6) * sqrt3}px" />
+    <!-- <img class="img" src={Trillium} alt="Trillium" width={csz * 0.8} style="margin-top: {(csz / 2.6) * sqrt3}px" /> -->
     {#each range(12) as pos (pos)}
         <Dot {pos} />
     {/each}
