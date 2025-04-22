@@ -291,29 +291,16 @@ export const inPlace = (wob) => {
 };
 
 export const isSolved = (silent = false) => {
-    // let solved = 0;
+    for (let i=0; i < 9; i++) {
+        const char = ss.cells[i].char;
+        const cell = findCell(i + 1);
 
-    // for (let row = 1; row <= ROWS; row++) {
-    //     const word = wordsRevealedAt(row);
+        if (cell.char !== char) {
+            return false;
+        }
+    }
 
-    //     if (!word) {
-    //         continue;
-    //     }
-
-    //     if (!ss.discovered.includes(word)) {
-    //         ss.discovered.push(word);
-
-    //         if (!ss.surrender && !silent) {
-    //             _sound.play('won', { rate: 3 });
-    //         }
-    //     }
-
-    //     if (inPlace(word, row)) {
-    //         solved += 1;
-    //     }
-    // }
-
-    // return solved === ROWS;
+    return true;
 };
 
 export const dayOfYear = () => {
