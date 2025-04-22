@@ -77,24 +77,6 @@ export const onOver = () => {
 
 export const secondDot = (dot) => dot < 9 ? dot + 1 : 1;
 
-export const swapPairs = (dot1, dot2) => {
-    const swap = (cell1, cell2) => {
-        const sum = cell1.pos + cell2.pos;
-        cell1.pos = sum - cell1.pos;
-        cell2.pos = sum - cell1.pos;
-    };
-
-    const sameRow = whichRow(dot1) === whichRow(dot2);
-
-    const cell1 = findCell(dot1);
-    const cell2 = findCell(sameRow ? dot2 : secondDot(dot2));
-    swap(cell1, cell2);
-
-    const cell3 = findCell(secondDot(dot1));
-    const cell4 = findCell(sameRow ? secondDot(dot2) : dot2);
-    swap(cell3, cell4);
-};
-
 const randomPuzzle = () => {
     const pickWords = () => {
         let w1, w2, w3;
@@ -239,7 +221,7 @@ export const makePool = () => {
 export const persist = (statsOnly = false) => {
     const json = statsOnly ? { ..._stats } :
         {
-            ..._stats, day: ss.day || 0, cells: ss.cells, steps: ss.steps, discovered: ss.discovered,
+            ..._stats, day: ss.day || 0, cells: ss.cells, steps: ss.steps,
             replay: ss.replay, initial: ss.initial
         };
 
@@ -247,8 +229,6 @@ export const persist = (statsOnly = false) => {
 };
 
 export const findCell = (pos) => ss.cells.find((cell) => cell.pos === pos);
-
-export const whichRow = dot => dot < 4 ? 2 : dot < 7 ? 3 : 1;
 
 const wordAt = (row) => {
     const edge = EDGES[row - 1];
@@ -283,12 +263,7 @@ export const wordRevealedAt = (pos) => {
 
 export const log = (value) => console.log($state.snapshot(value));
 
-export const inPlace = (wob) => {
-    const { word, row } = wob;
-    return ss.words[row - 1] === word;
-};
-
-export const isSolved = (silent = false) => {
+export const isSolved = () => {
     for (let i=0; i < 9; i++) {
         const char = ss.cells[i].char;
         const cell = findCell(i + 1);
@@ -307,46 +282,6 @@ export const dayOfYear = () => {
     const day = (Date.UTC(year, date.getMonth(), date.getDate()) - Date.UTC(year, 0, 0)) / 24 / 60 / 60 / 1000;
 
     return day;
-};
-
-export const shiftAt = (pos) => {
-    if (pos === 1) {
-        const cells = [findCell(1), findCell(2), findCell(3), findCell(4)];
-        cells[0].pos = 4;
-        cells[1].pos = 1;
-        cells[2].pos = 2;
-        cells[3].pos = 3;
-    } else if (pos === 3) {
-        const cells = [findCell(1), findCell(2), findCell(3), findCell(4)];
-        cells[0].pos = 2;
-        cells[1].pos = 3;
-        cells[2].pos = 4;
-        cells[3].pos = 1;
-    } else if (pos === 4) {
-        const cells = [findCell(4), findCell(5), findCell(6), findCell(7)];
-        cells[0].pos = 7;
-        cells[1].pos = 4;
-        cells[2].pos = 5;
-        cells[3].pos = 6;
-    } else if (pos === 6) {
-        const cells = [findCell(4), findCell(5), findCell(6), findCell(7)];
-        cells[0].pos = 5;
-        cells[1].pos = 6;
-        cells[2].pos = 7;
-        cells[3].pos = 4;
-    } else if (pos === 7) {
-        const cells = [findCell(7), findCell(8), findCell(9), findCell(1)];
-        cells[0].pos = 1;
-        cells[1].pos = 7;
-        cells[2].pos = 8;
-        cells[3].pos = 9;
-    } else if (pos === 9) {
-        const cells = [findCell(7), findCell(8), findCell(9), findCell(1)];
-        cells[0].pos = 8;
-        cells[1].pos = 9;
-        cells[2].pos = 1;
-        cells[3].pos = 7;
-    }
 };
 
 export const swapCells = (pos1, pos2) => {

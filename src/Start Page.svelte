@@ -36,7 +36,7 @@
         ss.initial = job.initial;
         ss.replay = job.replay;
 
-        if (isSolved(true)) {
+        if (isSolved()) {
             ss.over = true;
         }
     };

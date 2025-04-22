@@ -11,7 +11,7 @@
         </div>
     {:else}
         <div style="grid-area: 1/1" transition:fade>
-            <NumberFlow value={ss.steps} /> step{ss.steps === 1 ? '' : 's'}
+            <NumberFlow value={ss.steps} /> swap{ss.steps === 1 ? '' : 's'}
         </div>
     {/if}
 </div>
