@@ -38,7 +38,7 @@
         <Cell {cell} />
     {/each}
     <img class="img" src={Trillium} alt="Trillium" width={csz * 0.8} style="margin-top: {(csz / 2.6) * sqrt3}px" />
-    {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as pos (pos)}
+    {#each range(12) as pos (pos)}
         <Dot {pos} />
     {/each}
 </div>
