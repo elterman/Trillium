@@ -18,6 +18,8 @@
         grid-auto-flow: column;
         grid: auto / 1.3fr 1fr 1fr;
         height: 28px;
+        width: 90%;
+        place-self: center;
     }
 
     .item {

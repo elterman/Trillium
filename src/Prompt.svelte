@@ -53,6 +53,8 @@
             {/if}
         </div>
     </Motion>
+{:else}
+    <div class="placeholder"></div>
 {/if}
 
 <style>
@@ -61,5 +63,10 @@
         place-self: center;
         transform: scale(0);
         z-index: 1;
+    }
+
+    .placeholder {
+        grid-area: 4/1;
+        height: 36px;
     }
 </style>

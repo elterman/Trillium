@@ -2,7 +2,6 @@
     import Board from './Board.svelte';
     import { GAME_PAGE } from './const';
     import Countdown from './Countdown.svelte';
-    import Discovered from './Discovered.svelte';
     import Prompt from './Prompt.svelte';
     import { ss } from './state.svelte';
     import Stats from './Stats.svelte';
@@ -15,7 +14,6 @@
     <Steps />
     <Board />
     <Countdown />
-    <Discovered />
     <Prompt />
     <Toolbar />
 </div>

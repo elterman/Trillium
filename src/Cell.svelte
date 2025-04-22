@@ -77,7 +77,7 @@
 </script>
 
 <div {id} class="cell {ss.surrender ? 'surrender' : ''}" style="width: {CELL_SIZE}px; transform: {transform};">
-    <div class="content {ss.over ? 'pulse' : ''}" style="width: {width}; font-size: {fsz};">
+    <div class="content {ss.flip ? 'over' : ''} {ss.over ? 'pulse' : ''}" style="width: {width}; font-size: {fsz};">
         {char}
     </div>
 </div>
@@ -114,6 +114,9 @@
 
     .pulse {
         animation: pulse 0.2s alternate 6 ease-in-out;
+    }
+
+    .over, .pulse {
         background: #80d880;
     }
 

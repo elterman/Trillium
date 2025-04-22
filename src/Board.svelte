@@ -1,5 +1,6 @@
 <script>
     import Trillium from '$lib/images/Trillium.webp';
+    import { fade } from 'svelte/transition';
     import Cell from './Cell.svelte';
     import { CELL_SIZE, sqrt3 } from './const';
     import Dot from './Dot.svelte';
@@ -37,7 +38,16 @@
     {#each ss.cells as cell (cell.home)}
         <Cell {cell} />
     {/each}
-    <!-- <img class="img" src={Trillium} alt="Trillium" width={csz * 0.8} style="margin-top: {(csz / 2.6) * sqrt3}px" /> -->
+    {#if ss.over}
+        <img
+            class="img"
+            src={Trillium}
+            alt="Trillium"
+            width={csz * 0.8}
+            style="margin-top: {(csz / 2.6) * sqrt3}px"
+            in:fade={{ duration: 1000 }}
+            out:fade={{ duration: 500 }} />
+    {/if}
     {#each range(12) as pos (pos)}
         <Dot {pos} />
     {/each}
