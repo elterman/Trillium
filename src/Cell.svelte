@@ -1,9 +1,8 @@
 <script>
-    import { BLUE, CELL_SIZE, CELL_CONTENT_SIZE, GREEN, OFFWHITE, sqrt3, YELLOW } from './const';
-    import { inPlace, isSolved, onOver, persist, secondDot, wordRevealedAt } from './shared.svelte';
+    import { CELL_CONTENT_SIZE, CELL_SIZE, sqrt3 } from './const';
+    import { isSolved, onOver, persist } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { ss } from './state.svelte';
-    import { post } from './utils';
 
     const { cell } = $props();
     const { char, home, pos } = $derived(cell);
@@ -57,12 +56,10 @@
                 return;
             }
 
-            if (ss.dot2) {
+            if (ss.swap) {
                 _sound.play('cluck');
+                ss.swap = false;
             }
-
-            delete ss.dot1;
-            delete ss.dot2;
 
             if (isSolved()) {
                 onOver();
@@ -127,9 +124,5 @@
         to {
             transform: scale(0.85);
         }
-    }
-
-    .hover {
-        filter: hue-rotate(10deg) contrast(1.1) brightness(1.1);
     }
 </style>

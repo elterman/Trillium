@@ -1,13 +1,12 @@
 <script>
     import NumberFlow from '@number-flow/svelte';
     import { fade } from 'svelte/transition';
-    import { YOU_GAVE_UP_STATS_RESET } from './const';
     import { ss } from './state.svelte';
 </script>
 
 <div class="steps">
     {#if ss.surrender}
-        <div class="message {ss.surrender === YOU_GAVE_UP_STATS_RESET ? 'reset' : ''}" transition:fade>
+        <div class="message" transition:fade>
             {ss.surrender}
         </div>
     {:else}
@@ -35,8 +34,4 @@
         grid-area: 1/1;
     }
 
-    .reset {
-        font-size: 14px;
-        margin-top: -1px;
-    }
 </style>

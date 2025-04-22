@@ -204,8 +204,6 @@ export const onStart = (replay = false) => {
 
     delete ss.over;
     delete ss.surrender;
-    delete ss.dot1;
-    delete ss.dot2;
 
     persist();
 };

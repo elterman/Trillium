@@ -56,6 +56,8 @@
     const onPointerDown = () => {
         _sound.play('click');
 
+        ss.swap = true;
+
         if (pos === 2 || pos === 5 || pos === 8) {
             post(() => swapSections(pos), 100);
         } else {
@@ -64,14 +66,20 @@
 
         ss.steps += 1;
     };
+
+    const disabled = $derived.by(() => {
+        if (ss.swap || ss.over || ss.flip) {
+            return true;
+        }
+
+        return false;
+    });
 </script>
 
 <div
-    class="dot-target no-highlight"
+    class={['dot-target no-highlight', { disabled }]}
     style="width: {width}px; transform: {transform};"
     onpointerdown={onPointerDown}
-    onpointerenter={() => (ss.hover_pair = pos)}
-    onpointerleave={() => (ss.hover_pair = null)}
     transition:fade>
     {#if pos === 2 || pos === 5 || pos === 8}
         <div class="star"></div>
@@ -91,6 +99,16 @@
         cursor: pointer;
         transition: opacity 0.3s;
         /* background: #00000020; */
+    }
+
+    .dot-target:hover {
+        filter: brightness(2) contrast(2);
+    }
+
+    .disabled {
+        opacity: 0;
+        pointer-events: none;
+        cursor: initial;
     }
 
     .dot {
