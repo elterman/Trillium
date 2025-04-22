@@ -124,6 +124,9 @@ const randomPuzzle = () => {
             swapSections(sample(dots));
         }
     } while (wordsRevealed());
+
+    const cells = ss.cells.map(cell => ({ char: cell.char, home: cell.home, pos: cell.pos }));
+    const swaps = solve(cells);
 };
 
 const pickDaily = () => {
@@ -228,7 +231,7 @@ export const persist = (statsOnly = false) => {
     localStorage.setItem(APP_STATE, JSON.stringify(json));
 };
 
-export const findCell = (pos) => ss.cells.find((cell) => cell.pos === pos);
+export const findCell = (pos, cells = ss.cells) => cells.find((cell) => cell.pos === pos);
 
 const wordAt = (row) => {
     const edge = EDGES[row - 1];
@@ -264,7 +267,7 @@ export const wordRevealedAt = (pos) => {
 export const log = (value) => console.log($state.snapshot(value));
 
 export const isSolved = () => {
-    for (let i=0; i < 9; i++) {
+    for (let i = 0; i < 9; i++) {
         const char = ss.cells[i].char;
         const cell = findCell(i + 1);
 
@@ -284,9 +287,9 @@ export const dayOfYear = () => {
     return day;
 };
 
-export const swapCells = (pos1, pos2) => {
-    const cell1 = findCell(pos1);
-    const cell2 = findCell(pos2);
+export const swapCells = (pos1, pos2, cells = ss.cells) => {
+    const cell1 = findCell(pos1, cells);
+    const cell2 = findCell(pos2, cells);
 
     const sum = cell1.pos + cell2.pos;
     cell1.pos = sum - cell1.pos;
@@ -320,4 +323,58 @@ export const swapSections = (pos) => {
     for (let i = 0; i < 3; i++) {
         swapCells(sec1[i], sec2[i]);
     }
+};
+
+const whichSection = (pos) => {
+    if (pos === 1 || pos === 2 || pos === 9) {
+        return 'top';
+    } else if (pos === 3 || pos === 4 || pos === 5) {
+        return 'right';
+    } else if (pos === 6 || pos === 7 || pos === 8) {
+        return 'left';
+    }
+};
+
+export const solve = cells => {
+    let swaps = 0;
+
+    const maybeSwapSections = (pos) => {
+        const cell = findCell(pos, cells);
+        const posSection = whichSection(cell.pos);
+        const homeSection = whichSection(cell.home);
+
+        if (posSection !== homeSection) {
+            const sec1 = SECTIONS[posSection];
+            const sec2 = SECTIONS[homeSection];
+
+            for (let i = 0; i < 3; i++) {
+                swapCells(sec1[i], sec2[i], cells);
+            }
+
+            swaps += 1;
+        }
+    };
+
+    maybeSwapSections(1);
+    maybeSwapSections(4);
+    maybeSwapSections(7);
+
+    const maybeSwapCells = (pos) => {
+        const cell = findCell(pos, cells);
+
+        if (cell.pos !== cell.home) {
+            swapCells(cell.pos, cell.home, cells);
+            swaps += 1;
+        }
+    };
+
+    for (const sec in SECTIONS) {
+        const section = SECTIONS[sec];
+
+        for (let i = 0; i < section.length; i++) {
+            maybeSwapCells(section[i]);
+        }
+    }
+
+    return swaps;
 };
