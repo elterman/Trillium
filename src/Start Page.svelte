@@ -95,7 +95,7 @@
         <Help />
         <div class="buttons">
             <PromptButton op={{ label: 'Demo', onClick: onDemo }} />
-            <PromptButton op={{ label: ss.cells ? 'Play' : 'Play', onClick: onGoToGame }} />
+            <PromptButton op={{ label: ss.cells ? 'Back to Game' : 'Play', onClick: onGoToGame }} />
         </div>
     </div>
     <div class="version">1947</div>
