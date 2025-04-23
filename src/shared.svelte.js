@@ -1,7 +1,7 @@
 import { dict4 } from '$lib/dicts/dict4';
 import { pool } from '$lib/dicts/pool';
 import { cloneDeep, sample } from 'lodash-es';
-import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GOOD_JOB, CHEER_OUTSTANDING, CHEER_TRANSCENDENT, DAILY, EDGES, PROMPT_PLAY_AGAIN, SECTIONS } from './const';
+import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GREAT, CHEER_PERFECT, CHEER_PHENOMENAL, CHEER_YOU_DID_IT, DAILY, EDGES, PROMPT_PLAY_AGAIN, SECTIONS } from './const';
 import { _sound } from './sound.svelte';
 import { _prompt, _stats, ss } from './state.svelte';
 import { iofpos, posofi, post } from './utils';
@@ -41,14 +41,18 @@ export const onOver = () => {
         _sound.play('cluck');
     } else {
         const cheer = () => {
-            if (ss.steps < 6) {
-                prompt = CHEER_TRANSCENDENT;
-            } else if (ss.steps < 11) {
-                prompt = CHEER_OUTSTANDING;
-            } else if (ss.steps < 21) {
+            const score = ss.score();
+
+            if (score < 0) {
+                prompt = CHEER_PHENOMENAL;
+            } else if (score === 0) {
+                prompt = CHEER_PERFECT;
+            } else if (score === 1) {
                 prompt = CHEER_EXCELLENT;
+            } else if (score === 2) {
+                prompt = CHEER_GREAT;
             } else {
-                prompt = CHEER_GOOD_JOB;
+                prompt = CHEER_YOU_DID_IT;
             }
         };
 
