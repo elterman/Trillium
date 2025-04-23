@@ -1,5 +1,5 @@
-// import adapter from '@sveltejs/adapter-vercel';
-import adapter from '@sveltejs/adapter-static';
+import adapter from '@sveltejs/adapter-vercel';
+// import adapter from '@sveltejs/adapter-static';
 // import adapter from '@sveltejs/adapter-auto';
 
 const nops = {};
@@ -13,7 +13,7 @@ const staticOps = {
 	strict: true
 };
 
-const ops = staticOps;
+const ops = nops;
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
