@@ -35,28 +35,29 @@ export const onOver = () => {
         }, 300);
     };
 
-    let prompt = PROMPT_PLAY_AGAIN;
-
     if (ss.surrender) {
         _sound.play('cluck');
     } else {
-        const cheer = () => {
-            const score = ss.score();
-
-            if (score < 0) {
-                prompt = CHEER_PHENOMENAL;
-            } else if (score === 0) {
-                prompt = CHEER_PERFECT;
-            } else if (score === 1) {
-                prompt = CHEER_EXCELLENT;
-            } else if (score === 2) {
-                prompt = CHEER_GREAT;
-            } else {
-                prompt = CHEER_YOU_DID_IT;
-            }
-        };
-
         const score = ss.score();
+        let bestScore = false;
+
+        const cheer = () => {
+            if (score < 0) {
+                ss.cheer = CHEER_PHENOMENAL;
+            } else if (bestScore && _stats.plays > 1) {
+                ss.cheer = CHEER_BEST_SCORE;
+            } else if (score === 0) {
+                ss.cheer = CHEER_PERFECT;
+            } else if (score === 1) {
+                ss.cheer = CHEER_EXCELLENT;
+            } else if (score === 2) {
+                ss.cheer = CHEER_GREAT;
+            } else {
+                ss.cheer = CHEER_YOU_DID_IT;
+            }
+
+            post(() => delete ss.cheer, 3000);
+        };
 
         if (!ss.replay) {
             _stats.plays += 1;
@@ -65,20 +66,15 @@ export const onOver = () => {
 
         if (!ss.replay && (score < _stats.best || _stats.best === 0)) {
             _stats.best = score;
-
-            if (_stats.plays > 1) {
-                prompt = CHEER_BEST_SCORE;
-            } else {
-                cheer();
-            }
-        } else {
-            cheer();
+            bestScore = true;
         }
+
+        post(cheer);
     }
 
     delete ss.replay;
 
-    post(() => doOver(prompt), 500);
+    post(() => doOver(PROMPT_PLAY_AGAIN), 500);
 };
 
 export const secondDot = (dot) => dot < 9 ? dot + 1 : 1;
@@ -194,6 +190,7 @@ export const onStart = (replay = false) => {
     ss.steps = 0;
 
     delete ss.over;
+    delete ss.cheer;
     delete ss.surrender;
 
     persist();

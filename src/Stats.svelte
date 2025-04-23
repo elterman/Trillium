@@ -9,8 +9,8 @@
 <div class="stats">
     <div class={classes}>puzzles  <NumberFlow value={_stats.plays} /></div>
     {#if _stats.plays}
-        <div class={classes}>ave  {`${ave < 0 ? '-' : '+'}`}<NumberFlow value={ave} /></div>
-        <div class={classes}>best  {`${_stats.best < 0 ? '-' : '+'}`}<NumberFlow value={_stats.best} /></div>
+        <div class={classes}>ave  {`${ave < 0 ? '' : '+'}`}<NumberFlow value={ave} /></div>
+        <div class={classes}>best  {`${_stats.best < 0 ? '' : '+'}`}<NumberFlow value={_stats.best} /></div>
     {:else}
         <div class={classes}>ave</div>
         <div class={classes}>best</div>

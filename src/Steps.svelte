@@ -3,7 +3,7 @@
     import { fade } from 'svelte/transition';
     import { ss } from './state.svelte';
 
-    const par = $derived.by(() => {
+    const scoreReport = $derived.by(() => {
         if (!ss.over) {
             return null;
         }
@@ -14,15 +14,19 @@
 </script>
 
 <div class="steps">
-    {#if ss.surrender}
+    {#if ss.cheer}
+        <div class="message" transition:fade>
+            {ss.cheer}
+        </div>
+    {:else if ss.surrender}
         <div class="message" transition:fade>
             {ss.surrender}
         </div>
-    {:else if par}
+    {:else if scoreReport}
         <div id="steps" class="flow" transition:fade>
             <NumberFlow value={ss.steps} />
             <span>{` swap${ss.steps === 1 ? '' : 's'}`}</span>
-            {par}
+            {scoreReport}
         </div>
     {:else}
         <div id="steps" class="flow" transition:fade>
