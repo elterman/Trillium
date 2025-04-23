@@ -2,6 +2,42 @@
     import NumberFlow from '@number-flow/svelte';
     import { fade } from 'svelte/transition';
     import { ss } from './state.svelte';
+
+    let flip = $state(false);
+    let par = $state(null);
+    const parMessage = $derived.by(() => {
+        if (par === null) {
+            return '';
+        }
+
+        return `  –  ${par === 0 ? 'even' : `${Math.abs(par)} ${par > 0 ? 'over' : 'under'}`} par`;
+    });
+
+    $effect(() => {
+        flip = ss.over;
+
+        if (!ss.over) {
+            par = null;
+        }
+
+        const onTransitionEnd = (e) => {
+            if (e.target.id !== 'steps') {
+                return false;
+            }
+
+            if (e.propertyName !== 'transform') {
+                return;
+            }
+
+            if (flip) {
+                flip = false;
+                par = ss.steps - ss.par;
+            }
+        };
+
+        window.addEventListener('transitionend', onTransitionEnd);
+        return () => window.removeEventListener('transitionend', onTransitionEnd);
+    });
 </script>
 
 <div class="steps">
@@ -10,8 +46,10 @@
             {ss.surrender}
         </div>
     {:else}
-        <div style="grid-area: 1/1" transition:fade>
-            <NumberFlow value={ss.steps} /> swap{ss.steps === 1 ? '' : 's'}
+        <div id="steps" class="flow {flip ? 'flipped' : ''}" transition:fade>
+            <NumberFlow value={ss.steps} />
+            <span>{` swap${ss.steps === 1 ? '' : 's'}`}</span>
+            {parMessage}
         </div>
     {/if}
 </div>
@@ -34,4 +72,14 @@
         grid-area: 1/1;
     }
 
+    .flow {
+        grid-area: 1/1;
+        display: grid;
+        grid-auto-flow: column;
+        transition: linear transform 0.3s;
+    }
+
+    .flipped {
+        transform: rotateX(90deg);
+    }
 </style>

@@ -126,7 +126,7 @@ const randomPuzzle = () => {
     } while (wordsRevealed());
 
     const cells = ss.cells.map(cell => ({ char: cell.char, home: cell.home, pos: cell.pos }));
-    const swaps = solve(cells);
+    ss.par = solve(cells);
 };
 
 const pickDaily = () => {
@@ -224,7 +224,7 @@ export const makePool = () => {
 export const persist = (statsOnly = false) => {
     const json = statsOnly ? { ..._stats } :
         {
-            ..._stats, day: ss.day || 0, cells: ss.cells, steps: ss.steps,
+            ..._stats, day: ss.day || 0, cells: ss.cells, par: ss.par, steps: ss.steps,
             replay: ss.replay, initial: ss.initial
         };
 
