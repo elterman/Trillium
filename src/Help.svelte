@@ -1,13 +1,13 @@
 <script>
-    import Trillium from '$lib/images/Trillium.webp';
+    import Example from '$lib/images/Example.webp';
     import { scrollClass, tapOrClick } from './utils';
 
     const span = '<span style=\'margin: 10px 10px 0 0\'>';
     const unspan = '</span>';
     const hi = '<span style=\'color: lightgreen;\'>';
-    const imgStyle = ' width=80 style=\'place-self: center; margin-top: 10px;\'';
+    const imgStyle = ' width=250 style=\'place-self: center; margin-top: 20px;\'';
 
-    const content = `<span style='margin-right: 10px;'>Rearrange letters to reveal the ${hi}three connected 4-letter words${unspan} in as few steps as possible. In this example, the words are TIDE, ECHO, and TRIO:${unspan}<img src=${Trillium} ${imgStyle}>${span}${unspan}${span}•  ${tapOrClick()} a ${hi}dot${unspan} between two ${hi}adjacent letters to swap${unspan} them.${unspan}${span}• ${tapOrClick()} a ${hi}star${unspan} to ${hi}swap two 3-letter blocks${unspan}.${unspan}${span}•  The words must read from ${hi}left to right${unspan}.`;
+    const content = `<span style='margin-right: 10px;'>Restore order in the Trillium!${unspan}${span}Rearrange letters to reveal the ${hi}three connected 4-letter words${unspan} in as few steps as possible. In this example, the words are FANG, GLUE, and FLEE:${unspan}<img src=${Example} ${imgStyle}>${span}${unspan}${span}•  ${tapOrClick()} a ${hi}dot${unspan} between two ${hi}adjacent letters to swap${unspan} them.${unspan}${span}• ${tapOrClick()} a ${hi}star${unspan} to ${hi}swap two 3-letter blocks${unspan}.${unspan}${span}•  The words must read from ${hi}left to right${unspan}.`;
 </script>
 
 <div class="help">
