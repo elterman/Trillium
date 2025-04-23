@@ -29,7 +29,7 @@
         background: #00000020;
         border: 2px solid #ffe4ad80;
         width: calc(min(90dvw, 340px));
-        max-height: 460px;
+        max-height: 470px;
         color: var(--gold);
         text-shadow: 2px 2px 2px black;
     }
