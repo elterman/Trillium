@@ -3,12 +3,18 @@
     import { _stats } from './state.svelte';
 
     const classes = $derived(`item ${_stats.reset ? 'reset' : ''} gradient-gold`);
+    const ave = $derived(_stats.ave());
 </script>
 
 <div class="stats">
     <div class={classes}>puzzles  <NumberFlow value={_stats.plays} /></div>
-    <div class={classes}>ave  <NumberFlow value={_stats.ave()} /></div>
-    <div class={classes}>best  <NumberFlow value={_stats.best} /></div>
+    {#if _stats.plays}
+        <div class={classes}>ave  {`${ave < 0 ? '-' : '+'}`}<NumberFlow value={ave} /></div>
+        <div class={classes}>best  {`${_stats.best < 0 ? '-' : '+'}`}<NumberFlow value={_stats.best} /></div>
+    {:else}
+        <div class={classes}>ave</div>
+        <div class={classes}>best</div>
+    {/if}
 </div>
 
 <style>

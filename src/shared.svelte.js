@@ -52,13 +52,15 @@ export const onOver = () => {
             }
         };
 
+        const score = ss.score();
+
         if (!ss.replay) {
             _stats.plays += 1;
-            _stats.total_steps += ss.steps;
+            _stats.total_score += score;
         }
 
-        if (!ss.replay && (ss.steps < _stats.best || _stats.best === 0)) {
-            _stats.best = ss.steps;
+        if (!ss.replay && (score < _stats.best || _stats.best === 0)) {
+            _stats.best = score;
 
             if (_stats.plays > 1) {
                 prompt = CHEER_BEST_SCORE;
@@ -201,7 +203,7 @@ export const onResetStats = () => {
     }
 
     _stats.plays = 0;
-    _stats.best = _stats.total_steps = 0;
+    _stats.best = _stats.total_score = 0;
     persist();
 
     _stats.reset = true;

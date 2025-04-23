@@ -48,8 +48,9 @@
 
             if (job) {
                 _stats.plays = job.plays;
-                _stats.total_steps = job.total_steps;
+                _stats.total_score = job.total_score;
                 _stats.best = job.best;
+                ss.par = job.par;
 
                 if (!DAILY) {
                     reloadGame(job);
