@@ -84,7 +84,7 @@
     };
 
     const onDemo = () => {
-        window.open('https://youtube.com/shorts/87pgUPZcpdE');
+        window.open('https://youtube.com/shorts/FD6-WvNu_7A');
     };
     // const style = 'height: 40px; font-size: 18px; font-family: "Playfair Italic"; font-weight: bold';
 </script>
@@ -95,7 +95,7 @@
         <Help />
         <div class="buttons">
             <PromptButton op={{ label: 'Demo', onClick: onDemo }} />
-            <PromptButton op={{ label: ss.cells ? 'Back to Game' : 'Play', onClick: onGoToGame }} />
+            <PromptButton op={{ label: ss.cells ? 'Play' : 'Play', onClick: onGoToGame }} />
         </div>
     </div>
     <div class="version">1947</div>
