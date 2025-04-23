@@ -1,7 +1,7 @@
 {
   "short_name": "Trillium",
   "name": "Trillium",
-  "description": "Rearrange the grid to reveal three 3-letter words.",
+  "description": "Rearrange letters to reveal three connected 4-letter words.",
   "dir": "ltr",
   "lang": "en",
   "orientation": "portrait",
