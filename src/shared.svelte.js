@@ -93,8 +93,7 @@ const randomPuzzle = () => {
             w3 = sample(dict);
         } while (!w1 || !w2 || !w3);
 
-        // return [w1, w2, w3];
-        return ['TRAP', 'PUFF', 'TURF'];
+        return [w1, w2, w3];
     };
 
     ss.words = pickWords();
