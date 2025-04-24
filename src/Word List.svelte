@@ -51,6 +51,8 @@
         border: 2px solid #ffe4ad80;
         border-radius: 10px;
         backdrop-filter: blur(10px);
+        filter: drop-shadow(0 0 3px black);
+
     }
 
     .content {

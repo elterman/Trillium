@@ -123,6 +123,8 @@
         display: grid;
         grid-auto-flow: column;
         gap: 20px;
+        filter: drop-shadow(0 0 3px black);
+
     }
 
     .title {

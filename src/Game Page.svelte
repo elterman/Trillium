@@ -29,6 +29,8 @@
         padding: 10px 0;
         opacity: 0;
         transition: opacity 0.5s;
+        filter: drop-shadow(0 0 3px black);
+
     }
 
     .opacity {
