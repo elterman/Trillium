@@ -69,7 +69,7 @@
     };
 
     const disabled = $derived.by(() => {
-        if (ss.swap || ss.over || ss.flip) {
+        if (ss.swap || ss.over || ss.surrender || ss.flip) {
             return true;
         }
 
