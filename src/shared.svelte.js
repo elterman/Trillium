@@ -1,7 +1,7 @@
 import { dict4 } from '$lib/dicts/dict4';
 import { pool } from '$lib/dicts/pool';
 import { cloneDeep, sample } from 'lodash-es';
-import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GREAT, CHEER_PERFECT, CHEER_PHENOMENAL, CHEER_YOU_DID_IT, DAILY, EDGES, PROMPT_PLAY_AGAIN, SECTIONS } from './const';
+import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GREAT, CHEER_PERFECT, CHEER_PHENOMENAL, CHEER_YOU_DID_IT, DAILY, EDGES, PROMPT_NICE_BUT, PROMPT_PLAY_AGAIN, SECTIONS } from './const';
 import { _sound } from './sound.svelte';
 import { _prompt, _stats, ss } from './state.svelte';
 import { iofpos, posofi, post } from './utils';
@@ -93,7 +93,8 @@ const randomPuzzle = () => {
             w3 = sample(dict);
         } while (!w1 || !w2 || !w3);
 
-        return [w1, w2, w3];
+        // return [w1, w2, w3];
+        return ['TRAP', 'PUFF', 'TURF'];
     };
 
     ss.words = pickWords();
@@ -270,16 +271,21 @@ export const wordRevealedAt = (pos) => {
 export const log = (value) => console.log($state.snapshot(value));
 
 export const isSolved = () => {
-    for (let i = 0; i < 9; i++) {
-        const char = ss.cells[i].char;
-        const cell = findCell(i + 1);
+    const words = EDGES.map((edge) => edge.map((p) => findCell(p).char).join(''));
 
-        if (cell.char !== char) {
+    if (words[0] === ss.words[0] && words[1] === ss.words[1] && words[2] === ss.words[2]) {
+        return true;
+    }
+
+    for (const word of words) {
+        if (!dict4.includes(word)) {
             return false;
         }
     }
 
-    return true;
+    _prompt.set(PROMPT_NICE_BUT);
+
+    return false;
 };
 
 export const dayOfYear = () => {

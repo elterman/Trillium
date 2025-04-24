@@ -77,7 +77,9 @@
     const onGoToGame = () => {
         ss.page = GAME_PAGE;
 
-        if (!ss.cells) {
+        if (ss.cells) {
+            post(isSolved, 1000);
+        } else {
             _sound.play('score2');
             onStart();
         }

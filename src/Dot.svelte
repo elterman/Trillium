@@ -3,7 +3,7 @@
     import { CELL_CONTENT_SIZE, CELL_SIZE, sqrt3 } from './const';
     import { swapCellsAt, swapSections } from './shared.svelte';
     import { _sound } from './sound.svelte';
-    import { ss } from './state.svelte';
+    import { _prompt, ss } from './state.svelte';
     import { post } from './utils';
 
     const { pos } = $props();
@@ -54,6 +54,7 @@
     });
 
     const onPointerDown = () => {
+        _prompt.opacity = 0;
         _sound.play('click');
 
         ss.swap = true;
