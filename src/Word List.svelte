@@ -52,13 +52,13 @@
         border-radius: 10px;
         backdrop-filter: blur(10px);
         filter: drop-shadow(0 0 3px black);
-
     }
 
     .content {
         display: grid;
         align-content: start;
         gap: 5px;
+        outline: none !important;
     }
 
     .section {
