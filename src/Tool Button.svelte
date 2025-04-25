@@ -6,7 +6,7 @@
     let scale = $state(1);
     let timer3 = $state(false);
 
-    const classes = $derived(['button-base no-highlight button gradient-gold', { disabled }]);
+    const classes = $derived([`button-base no-highlight button gradient-${disabled ? 'gray' : 'gold'}`, { disabled }]);
     const style = $derived(`width: ${width}px; height: ${width}px; transform: scale(${scale})`);
 
     $effect(() => {
@@ -51,9 +51,7 @@
         display: grid;
         place-items: center;
         border-radius: 25%;
-        transition:
-            all 0.3s,
-            transform 0.1s;
+        transition: transform 0.1s;
     }
 
     .button:hover {
@@ -63,7 +61,6 @@
     .disabled {
         cursor: initial;
         pointer-events: none;
-        background: #888888;
     }
 
     .button:focus {

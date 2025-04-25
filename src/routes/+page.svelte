@@ -95,6 +95,10 @@
             user-select: none;
         }
 
+        .gradient-gray {
+            background: -webkit-linear-gradient(-90deg, #888888, #888888 50%, #888888 100%);
+        }
+
         .gradient-gold {
             background: -webkit-linear-gradient(-90deg, #ede2c5, #ffe4ad 50%, #d8ac3c 100%);
         }
