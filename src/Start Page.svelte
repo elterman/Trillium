@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
-    import { APP_STATE, DAILY, GAME_PAGE } from './const';
+    import { APP_STATE, DAILY, GAME_PAGE, YOU_GAVE_UP } from './const';
     import Help from './Help.svelte';
     import PromptButton from './Prompt Button.svelte';
     import { dayOfYear, isSolved, onStart, persist } from './shared.svelte';
@@ -38,6 +38,10 @@
 
         if (isSolved()) {
             ss.over = true;
+
+            if (_stats.plays === 0) {
+                ss.surrender = YOU_GAVE_UP;
+            }
         }
     };
 
