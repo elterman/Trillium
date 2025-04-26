@@ -126,9 +126,6 @@ const randomPuzzle = () => {
             swapSections(sample(dots));
         }
     } while (wordsRevealed());
-
-    const cells = ss.cells.map(cell => ({ char: cell.char, home: cell.home, pos: cell.pos }));
-    ss.par = solve(cells);
 };
 
 const pickDaily = () => {
@@ -168,6 +165,7 @@ export const makePuzzle = () => {
             ss.initial = cloneDeep(ss.cells); // save the initial scramble for replay purposes
         }
 
+        solve();
         persist();
     });
 };
@@ -217,7 +215,7 @@ export const makePool = () => {
     for (let i = 0; i < 366; i++) {
         randomPuzzle();
 
-        const daily = ss.cells.map((cell) => `${cell.char}${iofpos(cell.pos.row, cell.pos.col)}`).join('');
+        const daily = ss.cells.map((cell) => `${cell.char}${cell.pos}`).join('');
         pool.push(daily);
     }
 
@@ -225,11 +223,9 @@ export const makePool = () => {
 };
 
 export const persist = (statsOnly = false) => {
-    const json = statsOnly ? { ..._stats } :
-        {
-            ..._stats, day: ss.day || 0, cells: ss.cells, par: ss.par, steps: ss.steps,
-            replay: ss.replay, initial: ss.initial
-        };
+    const json = statsOnly ? { ..._stats } : {
+        ..._stats, day: ss.day || 0, cells: ss.cells, par: ss.par, steps: ss.steps, replay: ss.replay, initial: ss.initial
+    };
 
     localStorage.setItem(APP_STATE, JSON.stringify(json));
 };
@@ -343,7 +339,9 @@ const whichSection = (pos) => {
     }
 };
 
-export const solve = cells => {
+export const solve = () => {
+    const cells = ss.initial.map(cell => ({ home: cell.home, pos: cell.pos }));
+
     let swaps = 0;
 
     const maybeSwapSections = (pos) => {
@@ -384,5 +382,5 @@ export const solve = cells => {
         }
     }
 
-    return swaps;
+    ss.par = swaps;
 };

@@ -27,6 +27,7 @@
 
     const reloadGame = (job) => {
         ss.cells = job.cells;
+        ss.par = job.par;
 
         const chars = job.cells.map((cell) => cell.char);
         ss.words = [chars.slice(6).join('') + chars[0], chars.slice(0, 4).join(''), chars.slice(3, 7).reverse().join('')];
@@ -54,7 +55,6 @@
                 _stats.plays = job.plays;
                 _stats.total_score = job.total_score;
                 _stats.best = job.best;
-                ss.par = job.par;
 
                 if (!DAILY) {
                     reloadGame(job);
