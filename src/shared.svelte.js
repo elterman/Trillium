@@ -1,10 +1,10 @@
 import { dict4 } from '$lib/dicts/dict4';
 import { pool } from '$lib/dicts/pool';
 import { cloneDeep, sample } from 'lodash-es';
-import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GREAT, CHEER_PERFECT, CHEER_PHENOMENAL, CHEER_YOU_DID_IT, DAILY, EDGES, PROMPT_NICE_BUT, PROMPT_PLAY_AGAIN, SECTIONS } from './const';
+import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GREAT, CHEER_PERFECT, CHEER_PHENOMENAL, CHEER_YOU_DID_IT, DAILY, EDGES, PROMPT_PLAY_AGAIN, SECTIONS } from './const';
 import { _sound } from './sound.svelte';
 import { _prompt, _stats, ss } from './state.svelte';
-import { iofpos, posofi, post } from './utils';
+import { post } from './utils';
 
 let over = $state(false);
 
@@ -128,27 +128,41 @@ const randomPuzzle = () => {
     } while (wordsRevealed());
 };
 
+export const makePool = () => {
+    const pool = [];
+
+    for (let i = 0; i < 366; i++) {
+        randomPuzzle();
+
+        const daily = ss.cells.map((cell) => `${cell.char}${cell.pos}`).join('');
+        pool.push(daily);
+    }
+
+    return pool;
+};
+
 const pickDaily = () => {
     const doy = dayOfYear();
     const daily = pool[doy - 1];
 
-    ss.cells = [];
+    // ss.cells = [];
 
-    ss.words = [
-        [daily[0], daily[2], daily[4]].join(''),
-        [daily[6], daily[8], daily[10]].join(''),
-        [daily[12], daily[14], daily[16]].join('')
-    ];
+    // ss.words = [
+    //     [daily[0], daily[2], daily[4]].join(''),
+    //     [daily[6], daily[8], daily[10]].join(''),
+    //     [daily[12], daily[14], daily[16]].join('')
+    // ];
 
-    for (let i = 0; i < daily.length - 1; i += 2) {
-        const char = daily[i];
-        const ix = daily[i + 1];
+    // for (let i = 0; i < daily.length - 1; i += 2) {
+    //     const char = daily[i];
+    //     const ix = daily[i + 1];
 
-        const home = posofi(i / 2);
-        const pos = posofi(ix);
+    //     const home = posofi(i / 2);
+    //     const pos = posofi(ix);
 
-        ss.cells.push({ char, home, pos });
-    }
+    //     ss.cells.push({ char, home, pos });
+    // }
+
 };
 
 export const makePuzzle = () => {
@@ -209,22 +223,9 @@ export const onResetStats = () => {
     post(() => delete _stats.reset, 1500);
 };
 
-export const makePool = () => {
-    const pool = [];
-
-    for (let i = 0; i < 366; i++) {
-        randomPuzzle();
-
-        const daily = ss.cells.map((cell) => `${cell.char}${cell.pos}`).join('');
-        pool.push(daily);
-    }
-
-    return pool;
-};
-
 export const persist = (statsOnly = false) => {
     const json = statsOnly ? { ..._stats } : {
-        ..._stats, day: ss.day || 0, cells: ss.cells, par: ss.par, steps: ss.steps, replay: ss.replay, initial: ss.initial
+        ..._stats, day: ss.day || 0, cells: ss.cells, steps: ss.steps, replay: ss.replay, initial: ss.initial
     };
 
     localStorage.setItem(APP_STATE, JSON.stringify(json));
@@ -278,9 +279,9 @@ export const isSolved = () => {
         }
     }
 
-    _prompt.set(PROMPT_NICE_BUT);
+    solve();
 
-    return false;
+    return true;
 };
 
 export const dayOfYear = () => {

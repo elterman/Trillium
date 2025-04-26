@@ -1,13 +1,12 @@
 <script>
-    import { GAME_PAGE, PROMPT_NICE_BUT, X } from './const';
-    import { _prompt, ss } from './state.svelte';
+    import { X } from './const';
+    import { _prompt } from './state.svelte';
     import { post } from './utils';
 
     const { op } = $props();
 
     let scale = $state(1);
     const x = $derived(op.label === X);
-    const unbutton = $derived(ss.page === GAME_PAGE && _prompt.id === PROMPT_NICE_BUT);
     const style = $derived(`transform: scale(${scale})`);
 
     $effect(() => {
@@ -31,7 +30,7 @@
 
 <div
     id={op.label}
-    class={['button-base no-highlight button gradient-gold', { x }, { unbutton }]}
+    class={['button-base no-highlight button gradient-gold', { x }]}
     style={`${op.style}; ${style}`}
     onpointerdown={() => (scale = 0.8)}>
     {op.label}
@@ -53,11 +52,11 @@
         filter: sepia(1);
     }
 
-    .unbutton {
+    /* .no-frame {
         background: none;
         color: var(--gold);
         font-size: 17px;
-    }
+    } */
 
     .x {
         aspect-ratio: 1;

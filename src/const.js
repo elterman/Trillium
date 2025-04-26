@@ -11,7 +11,6 @@ export const CHEER_PHENOMENAL = 'Phenomenal!';
 export const PROMPT_PLAY_AGAIN = 'Play again?';
 export const PROMPT_RESET_STATS = 'Reset stats?';
 export const PROMPT_SURRENDER = 'Give up?';
-export const PROMPT_NICE_BUT = 'Nice, but look for another solution.';
 export const STACK_CAPACITY = 14;
 export const OFFWHITE = '#F0F8FF';
 export const RED = '#BF8080';
