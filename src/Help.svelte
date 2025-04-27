@@ -3,11 +3,12 @@
     import { scrollClass, tapOrClick } from './utils';
 
     const span = '<span style=\'margin: 10px 10px 0 0\'>';
-    const unspan = '</span>';
     const hi = '<span style=\'color: lightgreen;\'>';
     const imgStyle = ' width=250 style=\'place-self: center; margin: 20px 4px 0 0;\'';
+    const ul = '<ul style=\'margin: 15px 0 0 0;\'>';
+    const li = '<li style=\'margin: 5px 0 0 -20px;\'>';
 
-    const content = `<span style='margin-right: 10px;'>Restore order in the Trillium!${unspan}${span}Rearrange letters to reveal the ${hi}three connected 4-letter words${unspan} in as few steps as possible. In this example, the words are FANG, GLUE, and FLEE:${unspan}<img src=${Example} ${imgStyle}>${span}${unspan}${span}•  ${tapOrClick()} a ${hi}dot${unspan} between two ${hi}adjacent letters to swap${unspan} them.${unspan}${span}• ${tapOrClick()} a ${hi}star${unspan} to ${hi}swap two 3-letter blocks${unspan}.${unspan}${span}•  The words must read from ${hi}left to right${unspan}.`;
+    const content = `<span style='margin-right: 10px;'>Restore order in the Trillium!</span>${span}Rearrange letters to reveal ${hi}three connected 4-letter words</span> in as few steps as possible. In this example, the words are FANG, GLUE, and FLEE:</span><img src=${Example} ${imgStyle}>${ul}${li}${tapOrClick()} a ${hi}dot</span> between two ${hi}adjacent letters to swap</span> them.</li>${li}${tapOrClick()} a ${hi}star</span> to ${hi}swap two 3-letter blocks</span>.</li>${li}The words must read from ${hi}left to right</span>.</li></ul>`;
 </script>
 
 <div class="help">
@@ -32,7 +33,6 @@
         max-height: 470px;
         color: var(--gold);
         filter: drop-shadow(0 0 3px black);
-
     }
 
     .content {
