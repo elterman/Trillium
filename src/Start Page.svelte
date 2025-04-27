@@ -1,7 +1,6 @@
 <script>
-    import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
-    import { APP_STATE, DAILY, GAME_PAGE, YOU_GAVE_UP } from './const';
+    import { GAME_PAGE, YOU_GAVE_UP } from './const';
     import Help from './Help.svelte';
     import PromptButton from './Prompt Button.svelte';
     import { calculatePar, dayOfYear, isSolved, onStart, persist } from './shared.svelte';
@@ -42,37 +41,35 @@
         }
     };
 
-    onMount(() => {
-        post(() => {
-            const json = localStorage.getItem(APP_STATE);
-            const job = JSON.parse(json);
+    const loadGame = () => {
+        const json = localStorage.getItem(ss.appKey());
+        const job = JSON.parse(json);
 
-            if (job) {
-                _stats.plays = job.plays;
-                _stats.total_score = job.total_score;
-                _stats.best = job.best;
+        if (job) {
+            _stats.plays = job.plays;
+            _stats.total_score = job.total_score;
+            _stats.best = job.best;
 
-                if (!DAILY) {
+            if (!ss.daily) {
+                reloadGame(job);
+            } else {
+                ss.day = job.day;
+
+                const doy = dayOfYear();
+
+                if (ss.day === doy) {
+                    ss.replay = job.replay;
                     reloadGame(job);
                 } else {
-                    ss.day = job.day;
-
-                    const doy = dayOfYear();
-
-                    if (ss.day === doy) {
-                        ss.replay = job.replay;
-                        reloadGame(job);
-                    } else {
-                        localStorage.clear();
-                        ss.day = doy;
-                        persist(true);
-                    }
+                    localStorage.clear();
+                    ss.day = doy;
+                    persist(true);
                 }
-            } else if (DAILY) {
-                ss.day = dayOfYear();
             }
-        }, 2000);
-    });
+        } else if (ss.daily) {
+            ss.day = dayOfYear();
+        }
+    };
 
     const onGoToGame = () => {
         ss.page = GAME_PAGE;
@@ -88,17 +85,36 @@
     const onDemo = () => {
         window.open('https://youtube.com/shorts/FD6-WvNu_7A');
     };
-    // const style = 'height: 40px; font-size: 18px; font-family: "Playfair Italic"; font-weight: bold';
+
+    const onBinge = () => {
+        ss.daily = false;
+        loadGame();
+        onGoToGame();
+    };
+
+    const onDaily = () => {
+        ss.daily = true;
+        loadGame();
+        onGoToGame();
+    };
 </script>
 
 <div class="start-page" in:fade={{ duration: 100 }} out:fade={{ duration: 200 }}>
     <div class="content" bind:this={content} style="transform: scale({scale})">
         <div class="title gradient-gold gradient-text">Trillium</div>
         <Help />
-        <div class="buttons">
-            <PromptButton op={{ label: 'Demo', onClick: onDemo }} />
-            <PromptButton op={{ label: ss.cells ? 'Back to Game' : 'Play', onClick: onGoToGame }} />
-        </div>
+        {#if ss.daily === undefined}
+            <div class="buttons">
+                <PromptButton op={{ label: 'Demo', onClick: onDemo }} />
+                <PromptButton op={{ label: 'Daily', onClick: onDaily }} />
+                <PromptButton op={{ label: 'Binge', onClick: onBinge }} />
+            </div>
+        {:else}
+            <div class="buttons">
+                <PromptButton op={{ label: 'Demo', onClick: onDemo }} />
+                <PromptButton op={{ label: ss.cells ? 'Back to Game' : 'Play', onClick: onGoToGame }} />
+            </div>
+        {/if}
     </div>
     <div class="version">1947</div>
 </div>
@@ -124,7 +140,6 @@
         grid-auto-flow: column;
         gap: 20px;
         filter: drop-shadow(0 0 3px black);
-
     }
 
     .title {

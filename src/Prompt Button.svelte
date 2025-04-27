@@ -52,7 +52,7 @@
         filter: sepia(1);
     }
 
-    /* .no-frame {
+    /* .text-only {
         background: none;
         color: var(--gold);
         font-size: 17px;
