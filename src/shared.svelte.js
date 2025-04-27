@@ -116,14 +116,16 @@ const randomPuzzle = () => {
 
     do {
         let dots = [1, 3, 4, 6, 7, 9, 10, 11, 12];
+        let count = sample([15, 16]);
 
         for (let i = 0; i < 30; i++) {
             swapCellsAt(sample(dots));
         }
 
         dots = [2, 5, 8];
+        count = sample([5, 6]);
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < count; i++) {
             swapSections(sample(dots));
         }
     } while (isSolved());
