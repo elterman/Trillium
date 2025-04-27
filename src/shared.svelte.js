@@ -13,11 +13,11 @@ export const onOver = () => {
         return;
     }
 
+    calculatePar();
     over = true;
 
     const doOver = (prompt) => {
         ss.over = true;
-        calculatePar();
 
         post(() => {
             ss.flip = false;
