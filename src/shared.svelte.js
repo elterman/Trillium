@@ -87,17 +87,19 @@ const randomPuzzle = () => {
             do w1 = sample(dict4); while (w1[0] == w1[3]);
 
             let dict = dict4.filter(w => w[0] === w1[3]);
-            do w2 = sample(dict); while (w2[0] === w2[3]);
 
-            dict = dict4.filter(w => w[0] === w1[0] && w[3] === w2[3]);
-            w3 = sample(dict);
+            if (dict.length > 0) {
+                do w2 = sample(dict); while (w2[0] === w2[3]);
+
+                dict = dict4.filter(w => w[0] === w1[0] && w[3] === w2[3]);
+                w3 = sample(dict);
+            }
         } while (!w1 || !w2 || !w3);
 
         return [w1, w2, w3];
     };
 
     ss.words = pickWords();
-    // const letters = shuffle(ss.words[0].concat(ss.words[1].slice(1, 4)).concat(ss.words[2].slice(1, 3)));
 
     ss.cells = [
         { char: ss.words[0][3], home: 1, pos: 1 },
