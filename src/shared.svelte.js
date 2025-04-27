@@ -179,7 +179,7 @@ export const makePuzzle = () => {
             ss.initial = cloneDeep(ss.cells); // save the initial scramble for replay purposes
         }
 
-        solve();
+        calculatePar();
         persist();
     });
 };
@@ -269,17 +269,13 @@ export const log = (value) => console.log($state.snapshot(value));
 export const isSolved = () => {
     const words = EDGES.map((edge) => edge.map((p) => findCell(p).char).join(''));
 
-    if (words[0] === ss.words[0] && words[1] === ss.words[1] && words[2] === ss.words[2]) {
-        return true;
-    }
-
     for (const word of words) {
         if (!dict4.includes(word)) {
             return false;
         }
     }
 
-    solve();
+    calculatePar();
 
     return true;
 };
@@ -340,7 +336,7 @@ const whichSection = (pos) => {
     }
 };
 
-export const solve = () => {
+export const calculatePar = () => {
     const cells = ss.initial.map(cell => ({ home: cell.home, pos: cell.pos }));
 
     let swaps = 0;
