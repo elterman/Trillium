@@ -4,7 +4,7 @@
     import { APP_STATE, DAILY, GAME_PAGE, YOU_GAVE_UP } from './const';
     import Help from './Help.svelte';
     import PromptButton from './Prompt Button.svelte';
-    import { dayOfYear, isSolved, onStart, persist } from './shared.svelte';
+    import { calculatePar, dayOfYear, isSolved, onStart, persist } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { _stats, ss } from './state.svelte';
     import { focusOnApp, post, windowSize } from './utils';
@@ -27,17 +27,14 @@
 
     const reloadGame = (job) => {
         ss.cells = job.cells;
-
-        const chars = job.cells.map((cell) => cell.char);
-        ss.words = [chars.slice(6).join('') + chars[0], chars.slice(0, 4).join(''), chars.slice(3, 7).reverse().join('')];
-
+        ss.initial = job.initial;
         ss.steps = job.steps;
         ss.discovered = job.discovered;
-        ss.initial = job.initial;
         ss.replay = job.replay;
 
         if (isSolved()) {
             ss.over = true;
+            calculatePar();
 
             if (_stats.plays === 0) {
                 ss.surrender = YOU_GAVE_UP;

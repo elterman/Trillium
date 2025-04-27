@@ -17,6 +17,7 @@ export const onOver = () => {
 
     const doOver = (prompt) => {
         ss.over = true;
+        calculatePar();
 
         post(() => {
             ss.flip = false;
@@ -99,21 +100,19 @@ const randomPuzzle = () => {
         return [w1, w2, w3];
     };
 
-    ss.words = pickWords();
+    const words = pickWords();
 
     ss.cells = [
-        { char: ss.words[0][3], home: 1, pos: 1 },
-        { char: ss.words[1][1], home: 2, pos: 2 },
-        { char: ss.words[1][2], home: 3, pos: 3 },
-        { char: ss.words[2][3], home: 4, pos: 4 },
-        { char: ss.words[2][2], home: 5, pos: 5 },
-        { char: ss.words[2][1], home: 6, pos: 6 },
-        { char: ss.words[0][0], home: 7, pos: 7 },
-        { char: ss.words[0][1], home: 8, pos: 8 },
-        { char: ss.words[0][2], home: 9, pos: 9 },
+        { char: words[0][3], home: 1, pos: 1 },
+        { char: words[1][1], home: 2, pos: 2 },
+        { char: words[1][2], home: 3, pos: 3 },
+        { char: words[2][3], home: 4, pos: 4 },
+        { char: words[2][2], home: 5, pos: 5 },
+        { char: words[2][1], home: 6, pos: 6 },
+        { char: words[0][0], home: 7, pos: 7 },
+        { char: words[0][1], home: 8, pos: 8 },
+        { char: words[0][2], home: 9, pos: 9 },
     ];
-
-    const wordsRevealed = () => wordRevealedAt(1) || wordRevealedAt(7);
 
     do {
         let dots = [1, 3, 4, 6, 7, 9, 10, 11, 12];
@@ -127,7 +126,7 @@ const randomPuzzle = () => {
         for (let i = 0; i < 10; i++) {
             swapSections(sample(dots));
         }
-    } while (wordsRevealed());
+    } while (isSolved());
 };
 
 export const makePool = () => {
@@ -147,24 +146,14 @@ const pickDaily = () => {
     const doy = dayOfYear();
     const daily = pool[doy - 1];
 
-    // ss.cells = [];
+    ss.cells = [];
 
-    // ss.words = [
-    //     [daily[0], daily[2], daily[4]].join(''),
-    //     [daily[6], daily[8], daily[10]].join(''),
-    //     [daily[12], daily[14], daily[16]].join('')
-    // ];
+    for (let i = 0; i < daily.length - 1; i += 2) {
+        const char = daily[i];
+        const pos = daily[i + 1];
 
-    // for (let i = 0; i < daily.length - 1; i += 2) {
-    //     const char = daily[i];
-    //     const ix = daily[i + 1];
-
-    //     const home = posofi(i / 2);
-    //     const pos = posofi(ix);
-
-    //     ss.cells.push({ char, home, pos });
-    // }
-
+        ss.cells.push({ char, home: i / 2 + 1, pos: +pos });
+    }
 };
 
 export const makePuzzle = () => {
@@ -173,6 +162,7 @@ export const makePuzzle = () => {
     post(() => {
         if (DAILY) {
             pickDaily();
+            ss.initial = cloneDeep(ss.cells); // save the initial scramble for replay purposes
         } else if (ss.replay) {
             // replay mode, use the initial scramble to restore the game state
             ss.cells = cloneDeep(ss.initial);
@@ -235,37 +225,6 @@ export const persist = (statsOnly = false) => {
 
 export const findCell = (pos, cells = ss.cells) => cells.find((cell) => cell.pos === pos);
 
-const wordAt = (row) => {
-    const edge = EDGES[row - 1];
-
-    let word = '';
-
-    for (const p of edge) {
-        const cell = findCell(p);
-        word += cell.char;
-    }
-
-    return word;
-};
-
-export const wordRevealedAt = (pos) => {
-    for (const row of [1, 2, 3]) {
-        const edge = EDGES[row - 1];
-
-        if (!edge.includes(pos)) {
-            continue;
-        }
-
-        const word = wordAt(row);
-
-        if (ss.words.includes(word)) {
-            return { word, row };
-        }
-    }
-
-    return null;
-};
-
 export const log = (value) => console.log($state.snapshot(value));
 
 export const isSolved = () => {
@@ -276,8 +235,6 @@ export const isSolved = () => {
             return false;
         }
     }
-
-    calculatePar();
 
     return true;
 };

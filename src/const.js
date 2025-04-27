@@ -22,6 +22,6 @@ export const CELL_CONTENT_SIZE = CELL_SIZE * 0.875;
 export const YOU_GAVE_UP = 'You gave up.';
 export const YOU_GAVE_UP_STATS_RESET = 'You gave up. Stats reset.';
 export const sqrt3 = Math.sqrt(3);
-export const DAILY = false;
 export const EDGES = [[7, 8, 9, 1], [1, 2, 3, 4], [7, 6, 5, 4]];
 export const SECTIONS = { top: [1, 2, 9], right: [3, 4, 5], left: [8, 6, 7] };
+export const DAILY = true;
