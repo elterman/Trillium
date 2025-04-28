@@ -7,12 +7,11 @@ import { _prompt, _stats, ss } from './state.svelte';
 import { post } from './utils';
 
 export const onOver = () => {
-    if (ss.pendingOver) {
+    if (ss.cheer) {
         return;
     }
 
     calculatePar();
-    ss.pendingOver = true;
 
     const doOver = (prompt) => {
         ss.over = true;
@@ -36,6 +35,7 @@ export const onOver = () => {
 
     if (ss.surrender) {
         _sound.play('cluck');
+        post(() => ss.cheer = ss.surrender);
     } else {
         const score = ss.score();
         let bestScore = false;
@@ -193,7 +193,6 @@ export const onStart = (replay = false) => {
     ss.steps = 0;
 
     delete ss.over;
-    delete ss.pendingOver;
     delete ss.cheer;
     delete ss.surrender;
 
