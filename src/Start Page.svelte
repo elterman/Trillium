@@ -101,7 +101,12 @@
 
 <div class="start-page" in:fade={{ duration: 100 }} out:fade={{ duration: 200 }}>
     <div class="content" bind:this={content} style="transform: scale({scale})">
-        <div class="title gradient-gold gradient-text">Trillium</div>
+        <div class="title">
+            <div class="gradient-gold gradient-text">Trillium</div>
+            {#if ss.daily}
+                <div class="subtitle gradient-gold gradient-text">daily</div>
+            {/if}
+        </div>
         <Help />
         {#if ss.daily === undefined}
             <div class="buttons">
@@ -148,6 +153,11 @@
         font-weight: 600;
         color: var(--gold);
         filter: drop-shadow(4px 4px 4px black);
+        justify-items: center;
+    }
+
+    .subtitle {
+        font-size: 24px;
     }
 
     .version {

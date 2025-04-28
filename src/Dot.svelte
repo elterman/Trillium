@@ -1,7 +1,7 @@
 <script>
     import { fade } from 'svelte/transition';
     import { CELL_CONTENT_SIZE, CELL_SIZE, sqrt3 } from './const';
-    import { isSolved, swapCellsAt, swapSections } from './shared.svelte';
+    import { swapCellsAt, swapSections } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { _prompt, ss } from './state.svelte';
     import { post } from './utils';
@@ -69,7 +69,7 @@
     };
 
     const disabled = $derived.by(() => {
-        if (ss.swap || ss.over || ss.surrender || ss.flip || isSolved()) {
+        if (ss.swap || ss.over || ss.pendingOver || ss.surrender || ss.flip) {
             return true;
         }
 

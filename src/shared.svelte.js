@@ -6,15 +6,13 @@ import { _sound } from './sound.svelte';
 import { _prompt, _stats, ss } from './state.svelte';
 import { post } from './utils';
 
-let over = $state(false);
-
 export const onOver = () => {
-    if (over) {
+    if (ss.pendingOver) {
         return;
     }
 
     calculatePar();
-    over = true;
+    ss.pendingOver = true;
 
     const doOver = (prompt) => {
         ss.over = true;
@@ -180,7 +178,6 @@ export const makePuzzle = () => {
 
 export const onStart = (replay = false) => {
     _sound.play('dice');
-    over = false;
 
     if (ss.cells) {
         ss.flip = true;
@@ -196,6 +193,7 @@ export const onStart = (replay = false) => {
     ss.steps = 0;
 
     delete ss.over;
+    delete ss.pendingOver;
     delete ss.cheer;
     delete ss.surrender;
 
