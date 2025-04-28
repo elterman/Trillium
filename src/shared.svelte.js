@@ -1,20 +1,17 @@
 import { dict4 } from '$lib/dicts/dict4';
 import { pool } from '$lib/dicts/pool';
 import { cloneDeep, sample } from 'lodash-es';
-import { APP_STATE, CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GREAT, CHEER_PERFECT, CHEER_PHENOMENAL, CHEER_YOU_DID_IT, DAILY, EDGES, PROMPT_PLAY_AGAIN, SECTIONS } from './const';
+import { CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GREAT, CHEER_PERFECT, CHEER_PHENOMENAL, CHEER_YOU_DID_IT, EDGES, PROMPT_PLAY_AGAIN, SECTIONS } from './const';
 import { _sound } from './sound.svelte';
 import { _prompt, _stats, ss } from './state.svelte';
 import { post } from './utils';
 
-let over = $state(false);
-
 export const onOver = () => {
-    if (over) {
+    if (ss.cheer) {
         return;
     }
 
     calculatePar();
-    over = true;
 
     const doOver = (prompt) => {
         ss.over = true;
@@ -38,6 +35,7 @@ export const onOver = () => {
 
     if (ss.surrender) {
         _sound.play('cluck');
+        post(() => ss.cheer = ss.surrender);
     } else {
         const score = ss.score();
         let bestScore = false;
@@ -162,7 +160,7 @@ export const makePuzzle = () => {
     ss.cells = [];
 
     post(() => {
-        if (DAILY) {
+        if (ss.daily) {
             pickDaily();
             ss.initial = cloneDeep(ss.cells); // save the initial scramble for replay purposes
         } else if (ss.replay) {
@@ -180,7 +178,6 @@ export const makePuzzle = () => {
 
 export const onStart = (replay = false) => {
     _sound.play('dice');
-    over = false;
 
     if (ss.cells) {
         ss.flip = true;
@@ -222,7 +219,7 @@ export const persist = (statsOnly = false) => {
         ..._stats, day: ss.day || 0, cells: ss.cells, steps: ss.steps, replay: ss.replay, initial: ss.initial
     };
 
-    localStorage.setItem(APP_STATE, JSON.stringify(json));
+    localStorage.setItem(ss.appKey(), JSON.stringify(json));
 };
 
 export const findCell = (pos, cells = ss.cells) => cells.find((cell) => cell.pos === pos);
@@ -230,6 +227,10 @@ export const findCell = (pos, cells = ss.cells) => cells.find((cell) => cell.pos
 export const log = (value) => console.log($state.snapshot(value));
 
 export const isSolved = () => {
+    if (!ss.cells) {
+        return false;
+    }
+
     const words = EDGES.map((edge) => edge.map((p) => findCell(p).char).join(''));
 
     for (const word of words) {

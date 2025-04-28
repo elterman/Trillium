@@ -1,6 +1,5 @@
 <script>
     import { fade } from 'svelte/transition';
-    import { DAILY } from './const';
     import { ss } from './state.svelte';
     import { dayOfYear } from './shared.svelte';
     import NumberFlow, { NumberFlowGroup } from '@number-flow/svelte';
@@ -24,7 +23,7 @@
     let message = $state();
 
     $effect(() => {
-        if (!DAILY) {
+        if (!ss.daily) {
             return;
         }
 
@@ -48,7 +47,7 @@
     });
 </script>
 
-{#if DAILY && ss.over}
+{#if ss.daily && ss.over}
     {#if hours || minutes || seconds}
         <div class="countdown" transition:fade>
             <span>Next puzzle in  </span>

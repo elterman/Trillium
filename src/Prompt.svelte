@@ -1,6 +1,6 @@
 <script>
     import { Motion } from 'svelte-motion';
-    import { DAILY, PROMPT_PLAY_AGAIN, PROMPT_RESET_STATS, PROMPT_SURRENDER, X, YOU_GAVE_UP, YOU_GAVE_UP_STATS_RESET } from './const';
+    import { PROMPT_PLAY_AGAIN, PROMPT_RESET_STATS, PROMPT_SURRENDER, X, YOU_GAVE_UP, YOU_GAVE_UP_STATS_RESET } from './const';
     import PromptPanel from './Prompt Panel.svelte';
     import { onResetStats, onStart } from './shared.svelte';
     import { _prompt, _stats, ss } from './state.svelte';
@@ -35,7 +35,7 @@
         let:motion>
         <div class="prompt" use:motion>
             {#if label === PROMPT_PLAY_AGAIN}
-                {#if DAILY}
+                {#if ss.daily}
                     <PromptPanel ops={[{ label: 'Replay this puzzle?', onClick: () => onStart(true) }]} />
                 {:else}
                     <PromptPanel

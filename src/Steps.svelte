@@ -18,10 +18,6 @@
         <div class="message" transition:fade>
             {ss.cheer}
         </div>
-    {:else if ss.surrender}
-        <div class="message" transition:fade>
-            {ss.surrender}
-        </div>
     {:else if scoreReport}
         <div id="steps" class="flow" transition:fade>
             <NumberFlow value={ss.steps} />

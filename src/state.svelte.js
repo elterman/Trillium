@@ -1,10 +1,11 @@
-import { PROMPT_PLAY_AGAIN, START_PAGE } from './const';
+import { APP_DAILY_STATE, APP_STATE, PROMPT_PLAY_AGAIN, START_PAGE } from './const';
 
 export const ss = $state({
     page: START_PAGE,
     discovered: [],
     steps: 0,
     score: () => ss.steps - ss.par,
+    appKey: () => ss.daily ? APP_DAILY_STATE : APP_STATE,
 });
 
 export const _prompt = $state({
