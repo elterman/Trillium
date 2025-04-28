@@ -4,7 +4,6 @@ export const MODE_PAGE = 'MODE PAGE';
 export const START_PAGE = 'START PAGE';
 export const GAME_PAGE = 'GAME PAGE';
 export const X = '✖';
-export const CHEER_BEST_SCORE = 'Best score!';
 export const CHEER_YOU_DID_IT = 'You did it!';
 export const CHEER_GREAT = 'Great!';
 export const CHEER_EXCELLENT = 'Excellent!';

@@ -1,7 +1,7 @@
 import { dict4 } from '$lib/dicts/dict4';
 import { pool } from '$lib/dicts/pool';
-import { cloneDeep, sample } from 'lodash-es';
-import { CHEER_BEST_SCORE, CHEER_EXCELLENT, CHEER_GREAT, CHEER_PERFECT, CHEER_PHENOMENAL, CHEER_YOU_DID_IT, EDGES, PROMPT_PLAY_AGAIN, SECTIONS } from './const';
+import { cloneDeep, isNumber, sample } from 'lodash-es';
+import { CHEER_EXCELLENT, CHEER_GREAT, CHEER_PERFECT, CHEER_PHENOMENAL, CHEER_YOU_DID_IT, EDGES, PROMPT_PLAY_AGAIN, SECTIONS } from './const';
 import { _sound } from './sound.svelte';
 import { _prompt, _stats, ss } from './state.svelte';
 import { post } from './utils';
@@ -38,13 +38,10 @@ export const onOver = () => {
         post(() => ss.cheer = ss.surrender);
     } else {
         const score = ss.score();
-        let bestScore = false;
 
         const cheer = () => {
             if (score < 0) {
                 ss.cheer = CHEER_PHENOMENAL;
-            } else if (bestScore && _stats.plays > 1) {
-                ss.cheer = CHEER_BEST_SCORE;
             } else if (score === 0) {
                 ss.cheer = CHEER_PERFECT;
             } else if (score === 1) {
@@ -63,9 +60,8 @@ export const onOver = () => {
             _stats.total_score += score;
         }
 
-        if (!ss.replay && (score < _stats.best || _stats.best === 0)) {
+        if (!ss.replay && (_stats.best === null || score < _stats.best)) {
             _stats.best = score;
-            bestScore = true;
         }
 
         post(cheer);
@@ -207,7 +203,8 @@ export const onResetStats = () => {
     }
 
     _stats.plays = 0;
-    _stats.best = _stats.total_score = 0;
+    _stats.total_score = 0;
+    _stats.best = null;
     persist();
 
     _stats.reset = true;
