@@ -230,6 +230,10 @@ export const findCell = (pos, cells = ss.cells) => cells.find((cell) => cell.pos
 export const log = (value) => console.log($state.snapshot(value));
 
 export const isSolved = () => {
+    if (!ss.cells) {
+        return false;
+    }
+
     const words = EDGES.map((edge) => edge.map((p) => findCell(p).char).join(''));
 
     for (const word of words) {

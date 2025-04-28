@@ -105,7 +105,6 @@
         <Help />
         {#if ss.daily === undefined}
             <div class="buttons">
-                <PromptButton op={{ label: 'Demo', onClick: onDemo }} />
                 <PromptButton op={{ label: 'Daily', onClick: onDaily }} />
                 <PromptButton op={{ label: 'Binge', onClick: onBinge }} />
             </div>
