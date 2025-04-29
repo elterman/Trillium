@@ -1,6 +1,6 @@
 import { dict4 } from '$lib/dicts/dict4';
 import { pool } from '$lib/dicts/pool';
-import { cloneDeep, isNumber, sample } from 'lodash-es';
+import { cloneDeep, sample } from 'lodash-es';
 import { CHEER_EXCELLENT, CHEER_GREAT, CHEER_PERFECT, CHEER_PHENOMENAL, CHEER_YOU_DID_IT, EDGES, PROMPT_PLAY_AGAIN, SECTIONS } from './const';
 import { _sound } from './sound.svelte';
 import { _prompt, _stats, ss } from './state.svelte';
@@ -79,17 +79,17 @@ const randomPuzzle = () => {
         let w1, w2, w3;
 
         do {
-            do w1 = sample(dict4); while (w1[0] == w1[3]);
+            w1 = sample(dict4);
 
-            let dict = dict4.filter(w => w[0] === w1[3]);
+            let dict = dict4.filter(w => w !== w1 && w[0] === w1[3]);
 
             if (dict.length > 0) {
-                do w2 = sample(dict); while (w2[0] === w2[3]);
+                w2 = sample(dict);
 
-                dict = dict4.filter(w => w[0] === w1[0] && w[3] === w2[3]);
+                dict = dict4.filter(w => w !== w1 && w !== w2 && w[0] === w1[0] && w[3] === w2[3]);
                 w3 = sample(dict);
             }
-        } while (!w1 || !w2 || !w3);
+        } while (!w2 || !w3);
 
         return [w1, w2, w3];
     };
@@ -112,7 +112,7 @@ const randomPuzzle = () => {
         let dots = [1, 3, 4, 6, 7, 9, 10, 11, 12];
         let count = sample([15, 16]);
 
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < count; i++) {
             swapCellsAt(sample(dots));
         }
 
@@ -133,6 +133,7 @@ export const makePool = () => {
 
         const daily = ss.cells.map((cell) => `${cell.char}${cell.pos}`).join('');
         pool.push(daily);
+
     }
 
     return pool;
