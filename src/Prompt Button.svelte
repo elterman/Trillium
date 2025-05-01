@@ -60,6 +60,7 @@
 
     .x {
         aspect-ratio: 1;
-        padding: 0;
+        padding: 0 0 1px 0;
+        font-weight: normal;
     }
 </style>

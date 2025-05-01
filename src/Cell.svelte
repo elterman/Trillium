@@ -74,7 +74,7 @@
 </script>
 
 <div {id} class="cell {ss.surrender ? 'surrender' : ''}" style="width: {CELL_SIZE}px; transform: {transform};">
-    <div class="content {ss.flip ? 'over' : ''} {ss.over ? 'pulse' : ''}" style="width: {width}; font-size: {fsz};">
+    <div class="content {ss.flip || ss.cheer ? 'over' : ''} {ss.over ? 'pulse' : ''}" style="width: {width}; font-size: {fsz};">
         {char}
     </div>
 </div>
