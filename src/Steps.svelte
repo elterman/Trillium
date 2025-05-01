@@ -9,7 +9,7 @@
         }
 
         const score = ss.score();
-        return `  –  ${score === 0 ? 'even' : `${Math.abs(score)} ${score > 0 ? 'over' : 'under'}`} par`;
+        return `  •  ${score === 0 ? 'even' : `${Math.abs(score)} ${score > 0 ? 'over' : 'under'}`} par`;
     });
 </script>
 
