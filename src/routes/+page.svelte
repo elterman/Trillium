@@ -68,11 +68,6 @@
             overflow: hidden;
         }
 
-        .vignette {
-            grid-area: 1/1;
-            background-image: radial-gradient(transparent, black 150%);
-        }
-
         .button-base {
             box-sizing: border-box;
             cursor: pointer;
@@ -104,7 +99,7 @@
         }
 
         .gradient-green {
-            background: -webkit-linear-gradient(-90deg, #80D880, #8fd65f 50%, #649800 100%);
+            background: -webkit-linear-gradient(-90deg, #80d880, #8fd65f 50%, #649800 100%);
         }
 
         .gradient-text {
@@ -164,6 +159,11 @@
         background: var(--background);
         background-image: url('$lib/images/Pattern.webp');
         /* background-size: 150px; */
+    }
+
+    .vignette {
+        grid-area: 1/1;
+        background-image: radial-gradient(transparent, black 150%);
     }
 
     @font-face {

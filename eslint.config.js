@@ -12,10 +12,7 @@ export default [
   ...svelte.configs['flat/recommended'],
   {
     languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node
-      },
+      globals: { ...globals.browser, ...globals.node, ...globals.jest },
     },
     rules: {
       'no-unused-vars': ['warn'],

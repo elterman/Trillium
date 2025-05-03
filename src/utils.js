@@ -65,12 +65,4 @@ export const samePair = (p1, p2) => {
     return false;
 };
 
-export const posofi = (i) => {
-    return i;
-};
-
-export const iofpos = (pos) => {
-    return pos;
-};
-
 export const range = (n) => [...Array(n + 1).keys()].slice(1);
