@@ -18,16 +18,13 @@
         <div class="message" transition:fade>
             {ss.cheer}
         </div>
-    {:else if scoreReport}
-        <div id="steps" class="flow" transition:fade>
-            <NumberFlow value={ss.steps} />
-            <span>{` swap${ss.steps === 1 ? '' : 's'}`}</span>
-            {scoreReport}
-        </div>
     {:else}
         <div id="steps" class="flow" transition:fade>
             <NumberFlow value={ss.steps} />
             <span>{` swap${ss.steps === 1 ? '' : 's'}`}</span>
+            {#if scoreReport}
+                <span>{scoreReport}</span>
+            {/if}
         </div>
     {/if}
 </div>
