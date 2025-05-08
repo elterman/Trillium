@@ -202,7 +202,7 @@ export const onStart = (replay = false) => {
 };
 
 export const onResetStats = () => {
-    makePool();
+    // makePool();
 
     if (_stats.plays === 0) {
         return;
@@ -219,7 +219,7 @@ export const onResetStats = () => {
 
 export const persist = (statsOnly = false) => {
     const json = statsOnly ? { ..._stats } : {
-        ..._stats, day: ss.day || 0, cells: ss.cells, steps: ss.steps, replay: ss.replay, initial: ss.initial
+        ..._stats, day: ss.day || 0, cells: ss.cells, steps: ss.steps, replay: ss.replay, initial: ss.initial, surrender: ss.surrender,
     };
 
     localStorage.setItem(ss.appKey(), JSON.stringify(json));

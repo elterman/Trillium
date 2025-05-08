@@ -30,15 +30,15 @@
         ss.steps = job.steps;
         ss.discovered = job.discovered;
         ss.replay = job.replay;
+        ss.surrender = job.surrender;
 
         if (isSolved()) {
             ss.over = true;
-            ss.steps = 0;
-            
+
             calculatePar();
 
             if (_stats.plays === 0) {
-                ss.surrender = YOU_GAVE_UP;
+                ss.cheer = ss.surrender = YOU_GAVE_UP;
             }
         }
     };
