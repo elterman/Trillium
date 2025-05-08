@@ -33,6 +33,8 @@
 
         if (isSolved()) {
             ss.over = true;
+            ss.steps = 0;
+            
             calculatePar();
 
             if (_stats.plays === 0) {

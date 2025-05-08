@@ -5,7 +5,7 @@
     import { isAppleDevice } from './utils';
 
     const scoreReport = $derived.by(() => {
-        if (!ss.over) {
+        if (!ss.over || ss.steps === 0) {
             return null;
         }
 
@@ -14,6 +14,7 @@
     });
 
     const apple = isAppleDevice();
+    const gaveUp = $derived(ss.over && ss.steps === 0);
 </script>
 
 <div class="steps">
@@ -21,8 +22,8 @@
         <div class="message" transition:fade>
             {ss.cheer}
         </div>
-    {:else}
-        <div id="steps" class="flow {apple ? 'apple' : ''}" transition:fade>
+    {:else if !gaveUp}
+        <div id="steps" class="flow {apple ? 'apple' : ''}" transition:fade={{ duration: gaveUp ? 0 : 400 }}>
             <NumberFlow value={ss.steps} />
             <span>{` swap${ss.steps === 1 ? '' : 's'}`}</span>
             {#if scoreReport}

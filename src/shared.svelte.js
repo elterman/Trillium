@@ -202,7 +202,7 @@ export const onStart = (replay = false) => {
 };
 
 export const onResetStats = () => {
-    // makePool();
+    makePool();
 
     if (_stats.plays === 0) {
         return;
