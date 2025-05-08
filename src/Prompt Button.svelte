@@ -32,7 +32,7 @@
 
 <div
     id={op.label}
-    class={[`button-base no-highlight button ${apple ? 'apple' : ''} gradient-gold`, { x }]}
+    class={[`button-base no-highlight button ${apple ? 'apple' : ''} gradient-gold`, 'X']}
     style={`${op.style}; ${style}`}
     onpointerdown={() => (scale = 0.8)}>
     {op.label}
