@@ -2,6 +2,7 @@
     import { X } from './const';
     import { _prompt } from './state.svelte';
     import { isAppleDevice, post } from './utils';
+    import imgX from '$lib/images/X.webp';
 
     const { op } = $props();
 
@@ -32,10 +33,14 @@
 
 <div
     id={op.label}
-    class={[`button-base no-highlight button ${apple ? 'apple' : ''} gradient-gold`, 'X']}
+    class={[`button-base no-highlight button ${apple ? 'apple' : ''} gradient-gold`, { x }]}
     style={`${op.style}; ${style}`}
     onpointerdown={() => (scale = 0.8)}>
-    {op.label}
+    {#if x}
+        <img src={imgX} alt="X" width={14} />
+    {:else}
+        {op.label}
+    {/if}
 </div>
 
 <style>
