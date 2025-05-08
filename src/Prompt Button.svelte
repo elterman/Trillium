@@ -69,8 +69,8 @@
     } */
 
     .x {
-        aspect-ratio: 1;
-        padding: 0 0 1px 0;
+        width: 36px;
+        padding-bottom: 1px;
         font-weight: normal;
     }
 </style>
