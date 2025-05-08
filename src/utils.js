@@ -47,6 +47,9 @@ export const tapOrClick = (lower = false) => {
     return lower ? verb.toLowerCase() : verb;
 };
 
+export const isAppleDevice = () => /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    
 export const scrollClass = () => `root-scroll ${isTouchable() ? 'root-scroll-mobile' : ''}`;
 
 export const post = (fn, ms) => setTimeout(fn, ms);

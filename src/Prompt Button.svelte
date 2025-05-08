@@ -1,7 +1,7 @@
 <script>
     import { X } from './const';
     import { _prompt } from './state.svelte';
-    import { post } from './utils';
+    import { isAppleDevice, post } from './utils';
 
     const { op } = $props();
 
@@ -26,11 +26,13 @@
         window.addEventListener('transitionend', onTransitionEnd);
         return () => window.removeEventListener('transitionend', onTransitionEnd);
     });
+
+    const apple = isAppleDevice();
 </script>
 
 <div
     id={op.label}
-    class={['button-base no-highlight button gradient-gold', { x }]}
+    class={[`button-base no-highlight button ${apple ? 'apple' : ''} gradient-gold`, { x }]}
     style={`${op.style}; ${style}`}
     onpointerdown={() => (scale = 0.8)}>
     {op.label}
@@ -46,6 +48,10 @@
         padding: 0px 15px 3px;
         font-family: 'Playfair Italic';
         font-weight: bold;
+    }
+
+    .apple {
+        font-weight: normal;
     }
 
     .button:hover {
