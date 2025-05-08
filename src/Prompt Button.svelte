@@ -33,7 +33,7 @@
 
 <div
     id={op.label}
-    class={[`button-base no-highlight button ${apple ? 'apple' : ''} gradient-gold`, { x }]}
+    class={[`button-base no-highlight button ${apple ? 'fw500' : ''} gradient-gold`, { x }]}
     style={`${op.style}; ${style}`}
     onpointerdown={() => (scale = 0.8)}>
     {#if x}
@@ -53,10 +53,6 @@
         padding: 0px 15px 3px;
         font-family: 'Playfair Italic';
         font-weight: bold;
-    }
-
-    .apple {
-        font-weight: 500;
     }
 
     .button:hover {

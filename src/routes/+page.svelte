@@ -80,6 +80,10 @@
             outline: none !important;
         }
 
+        .fw500 {
+            font-weight: 500;
+        }
+
         .no-highlight {
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;

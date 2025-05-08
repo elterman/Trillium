@@ -1,8 +1,10 @@
 <script>
     import NumberFlow from '@number-flow/svelte';
     import { _stats } from './state.svelte';
+    import { isAppleDevice } from './utils';
 
-    const classes = $derived(`item ${_stats.reset ? 'reset' : ''} gradient-gold`);
+    const apple = isAppleDevice();
+    const classes = $derived(`item ${apple ? 'fw500' : ''} ${_stats.reset ? 'reset' : ''} gradient-gold`);
     const ave = $derived(_stats.ave());
 </script>
 

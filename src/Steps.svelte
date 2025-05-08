@@ -2,6 +2,7 @@
     import NumberFlow from '@number-flow/svelte';
     import { fade } from 'svelte/transition';
     import { ss } from './state.svelte';
+    import { isAppleDevice } from './utils';
 
     const scoreReport = $derived.by(() => {
         if (!ss.over) {
@@ -11,6 +12,8 @@
         const score = ss.score();
         return `  •  ${score === 0 ? 'even' : `${Math.abs(score)} ${score > 0 ? 'over' : 'under'}`} par`;
     });
+
+const apple = isAppleDevice();
 </script>
 
 <div class="steps">
@@ -19,7 +22,7 @@
             {ss.cheer}
         </div>
     {:else}
-        <div id="steps" class="flow" transition:fade>
+        <div id="steps ${apple ? 'fw500' : ''}" class="flow" transition:fade>
             <NumberFlow value={ss.steps} />
             <span>{` swap${ss.steps === 1 ? '' : 's'}`}</span>
             {#if scoreReport}
