@@ -56,7 +56,7 @@
     }
 
     .apple {
-        font-weight: 600;
+        font-weight: 500;
     }
 
     .button:hover {
