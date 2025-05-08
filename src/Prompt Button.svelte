@@ -9,6 +9,7 @@
     let scale = $state(1);
     const x = $derived(op.label === X);
     const style = $derived(`transform: scale(${scale})`);
+    const apple = isAppleDevice();
 
     $effect(() => {
         const onTransitionEnd = (e) => {
@@ -27,13 +28,11 @@
         window.addEventListener('transitionend', onTransitionEnd);
         return () => window.removeEventListener('transitionend', onTransitionEnd);
     });
-
-    const apple = isAppleDevice();
 </script>
 
 <div
     id={op.label}
-    class={[`button-base no-highlight button ${apple ? 'fw500' : ''} gradient-gold`, { x }]}
+    class={[`button-base no-highlight button ${apple ? 'apple' : ''} gradient-gold`, { x }]}
     style={`${op.style}; ${style}`}
     onpointerdown={() => (scale = 0.8)}>
     {#if x}
@@ -57,6 +56,10 @@
 
     .button:hover {
         filter: sepia(1);
+    }
+
+    .apple {
+        font-weight: 500;
     }
 
     /* .text-only {

@@ -13,7 +13,7 @@
         return `  •  ${score === 0 ? 'even' : `${Math.abs(score)} ${score > 0 ? 'over' : 'under'}`} par`;
     });
 
-const apple = isAppleDevice();
+    const apple = isAppleDevice();
 </script>
 
 <div class="steps">
@@ -22,7 +22,7 @@ const apple = isAppleDevice();
             {ss.cheer}
         </div>
     {:else}
-        <div id="steps ${apple ? 'fw500' : ''}" class="flow" transition:fade>
+        <div id="steps" class="flow {apple ? 'apple' : ''}" transition:fade>
             <NumberFlow value={ss.steps} />
             <span>{` swap${ss.steps === 1 ? '' : 's'}`}</span>
             {#if scoreReport}
@@ -44,6 +44,10 @@ const apple = isAppleDevice();
         place-self: center;
         place-items: center;
         color: var(--gold);
+    }
+
+    .apple {
+        font-weight: 500;
     }
 
     .message {

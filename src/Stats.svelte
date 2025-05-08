@@ -4,7 +4,7 @@
     import { isAppleDevice } from './utils';
 
     const apple = isAppleDevice();
-    const classes = $derived(`item ${apple ? 'fw500' : ''} ${_stats.reset ? 'reset' : ''} gradient-gold`);
+    const classes = $derived(`item ${apple ? 'apple' : ''} ${_stats.reset ? 'reset' : ''} gradient-gold`);
     const ave = $derived(_stats.ave());
 </script>
 
@@ -45,6 +45,10 @@
         place-content: center;
         place-self: center;
         transition: 0.2s;
+    }
+
+    .apple {
+        font-weight: 500;
     }
 
     .reset {
