@@ -36,7 +36,7 @@
     style={`${op.style}; ${style}`}
     onpointerdown={() => (scale = 0.8)}>
     {#if x}
-        <img src={imgX} alt="X" width={14} />
+        <img src={imgX} alt="X" width={13} />
     {:else}
         {op.label}
     {/if}
