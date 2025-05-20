@@ -1,6 +1,5 @@
 export const APP_DAILY_STATE = 'Trillium Daily V1';
 export const APP_STATE = 'Trillium V1';
-export const MODE_PAGE = 'MODE PAGE';
 export const START_PAGE = 'START PAGE';
 export const GAME_PAGE = 'GAME PAGE';
 export const X = '✖';
